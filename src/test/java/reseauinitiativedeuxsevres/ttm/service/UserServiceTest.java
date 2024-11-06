@@ -33,7 +33,6 @@ public class UserServiceTest {
 
         assertThat(resultExpected).isEqualTo(resultResponse);
 
-
     }
 
 
