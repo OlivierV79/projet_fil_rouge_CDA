@@ -8,5 +8,5 @@ public interface UserServiceImpl {
 
     String enregistrerAdminDepartemental(AdminDepartemental adminDepartemental);
 
-    Optional<AdminDepartemental> rechercherAdminDepartemental(AdminDepartemental adminDepartemental79);
+    Optional<AdminDepartemental> rechercherAdminDepartemental(String nom);
 }

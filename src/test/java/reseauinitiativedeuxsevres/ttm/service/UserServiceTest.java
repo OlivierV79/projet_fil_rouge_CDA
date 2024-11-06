@@ -41,14 +41,16 @@ public class UserServiceTest {
 
         AdminDepartemental adminDepartemental79 = new AdminDepartemental("Nomadmindepartemental79", "admindepartemental79@toto.fr", "Initiatives Deux-Sèvres");
 
-        String resquest = "Nomadmindepartemental79";
+        String request = "Nomadmindepartemental79";
 
-        Mockito.when(userRepository.rechercherAdminDepartemental(resquest)).thenReturn(adminDepartemental79);
+        Mockito.when(userRepository.rechercherAdminDepartemental(request)).thenReturn(Optional.of(adminDepartemental79));
 
-        Optional<AdminDepartemental> resultResponse = userService.rechercherAdminDepartemental(adminDepartemental79);
+        Optional<AdminDepartemental> resultResponse = userService.rechercherAdminDepartemental(request);
         AdminDepartemental resutlt = resultResponse.orElseThrow();
 
         assertThat(adminDepartemental79).isEqualTo(resutlt);
+        assertThat(adminDepartemental79.getEntreprise()).isEqualTo(resutlt.getEntreprise());
+        assertThat(adminDepartemental79.getMail()).isEqualTo(resutlt.getMail());
     }
 
 
