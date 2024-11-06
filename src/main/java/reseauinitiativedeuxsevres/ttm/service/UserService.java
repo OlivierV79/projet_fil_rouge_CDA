@@ -2,6 +2,7 @@ package reseauinitiativedeuxsevres.ttm.service;
 
 import reseauinitiativedeuxsevres.ttm.model.AdminDepartemental;
 import reseauinitiativedeuxsevres.ttm.repository.UserRepository;
+import reseauinitiativedeuxsevres.ttm.service.Impl.UserServiceImpl;
 
 public class UserService implements UserServiceImpl {
 
