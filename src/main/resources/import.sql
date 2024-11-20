@@ -1,0 +1,3 @@
+INSERT INTO role (nom) VALUES ('Administrateur général'), ('Administrateur départemental'), ('Porteur'), ('Parrain');
+INSERT INTO plateforme_initiative (nom) VALUES ('Nouvelle Aquitaine'), ('Charente'), ('Charente-Maritime'), ('Corrèze'), ('Creuse'), ('Dordogne'), ('Gironde'), ('Landes'), ('Lot-et-Garonne'), ('Pyrénées-Atlantiques'), ('Deux-Sèvres'), ('Vienne'), ('Haute-Vienne');
+INSERT INTO admin_general (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id) VALUES ('oli','oli@oli.com','PIGNON','Francois','Maif',1,1);

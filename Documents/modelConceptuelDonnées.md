@@ -2,7 +2,7 @@
 
 ````mermaid
 classDiagram
-    class User{
+    class Utilisateur{
         <<abstract>>
         - Integer id
         - String nomUtilisateur
@@ -10,9 +10,9 @@ classDiagram
         - String password
         - String nom
         - String prenom
-        - Type type
+        - Role role
         - String Entreprise
-        - String plateformeInitiative
+        - PlateformeInitiative plateformeInitiative
         - LocalDateTime dateCreationCompte
         + se connecter()
         + se deconnecter()
@@ -58,15 +58,29 @@ classDiagram
             String nom
         }
         
+        class PlateformeInitiative{
+            Integer id
+            String nom
+        }
+        
         class Lieu{
             Integer id
             String nom
         }
+        
+        class Role{
+            Integer id
+            String nom
+        }
+        
+        
 
 
-    User <|-- AdminGeneral
-    User <|-- AdminDepartemental
-    User <|-- Acteurs
+    Utilisateur <|-- AdminGeneral
+    Utilisateur <|-- AdminDepartemental
+    Utilisateur <|-- Acteurs
+    Utilisateur --> PlateformeInitiative
+    Utilisateur --> Role
     Acteurs <|-- Porteur
     Acteurs <|-- Parrain
 
