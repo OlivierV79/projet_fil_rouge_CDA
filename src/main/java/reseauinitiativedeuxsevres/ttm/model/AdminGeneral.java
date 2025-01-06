@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class AdminGeneral extends Utilisateur {
-
+}
 //    @PrePersist
 //    protected void onCreate() {
 //        this.setRole(Role.ADMINISTRATEURGENERAL);
 //    }
 
-}
+

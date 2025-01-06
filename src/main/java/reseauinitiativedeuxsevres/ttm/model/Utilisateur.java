@@ -48,6 +48,5 @@ public abstract class Utilisateur {
     @JoinColumn (nullable = false)
     private PlateformeInitiative plateformeInitiative;
 
-
     private LocalDateTime dateCreationCompte;
 }

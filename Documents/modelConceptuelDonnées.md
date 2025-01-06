@@ -84,9 +84,13 @@ classDiagram
     Acteurs <|-- Porteur
     Acteurs <|-- Parrain
 
-    Acteurs --> Accompgnement
-    Acteurs --> DomaineActivite
-    Acteurs --> Lieu
+    Porteur --> Accompgnement
+    Porteur --> DomaineActivite
+    Porteur --> Lieu
+
+    Parrain --> Accompgnement
+    Parrain --> DomaineActivite
+    Parrain --> Lieu
 
   
     

@@ -2,7 +2,6 @@ package reseauinitiativedeuxsevres.ttm.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import reseauinitiativedeuxsevres.ttm.model.AdminDepartemental;
-import reseauinitiativedeuxsevres.ttm.model.AdminGeneral;
 
-public interface AdminGeneralRepository extends JpaRepository<AdminGeneral, Long> {
+public interface AdminDepartementalRepository extends JpaRepository<AdminDepartemental, Long> {
 }

@@ -1,11 +1,11 @@
 import React from 'react';
-import CreationAdminD from "../components/CreationAdminD";
+import CreationUtilisateur from "../components/CreationUtilisateur";
 
 const AdminG: React.FC = () => {
     return (
         <>
             <h1>H1 de la page AdminG</h1>
-            <CreationAdminD/>
+            <CreationUtilisateur role={"2"} typeUtilisateur={"Administrateur départemantal"}/>
         </>
 
     )

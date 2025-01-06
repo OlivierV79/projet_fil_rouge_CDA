@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-interface AdminFormData {
+interface UtilisateurFormData {
     nomUtilisateur: string;
     mail: string;
     password: string;
@@ -8,6 +8,7 @@ interface AdminFormData {
     prenom: string;
     entreprise: string;
     plateformeInitiativeId: string;
+    role: string;
 }
 
 interface Plateforme {
@@ -15,15 +16,22 @@ interface Plateforme {
     nom: string;
 }
 
-const CreationAdminD: React.FC = () => {
-    const [formData, setFormData] = useState<AdminFormData>({
+interface CreationUtilisateurProps {
+    role: string;
+    typeUtilisateur: string;
+}
+
+
+const CreationUtilisateur: React.FC<CreationUtilisateurProps> = ({ role, typeUtilisateur }) => {
+    const [formData, setFormData] = useState<UtilisateurFormData>({
         nomUtilisateur: '',
         mail: '',
         password: '',
         nom: '',
         prenom: '',
         entreprise: '',
-        plateformeInitiativeId: ''
+        plateformeInitiativeId: '',
+        role: role // Initialiser avec la valeur de la prop
     });
 
     const [plateformes, setPlateformes] = useState<Plateforme[]>([]);
@@ -46,8 +54,6 @@ const CreationAdminD: React.FC = () => {
         fetchPlateformes();
     }, []);
 
-
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -57,7 +63,7 @@ const CreationAdminD: React.FC = () => {
         e.preventDefault();
         console.log('Form Data:', formData);
         try {
-            const response = await fetch('http://localhost:8080/api/AdminG/creationAdminD', {
+            const response = await fetch('http://localhost:8080/api/Utilisateur/creationUtilisateur', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -66,7 +72,7 @@ const CreationAdminD: React.FC = () => {
             });
 
             if (response.ok) {
-                alert('OKKKKKKKK');
+                alert('Utilisateur créé avec succès');
                 setFormData({
                     nomUtilisateur: '',
                     mail: '',
@@ -74,20 +80,21 @@ const CreationAdminD: React.FC = () => {
                     nom: '',
                     prenom: '',
                     entreprise: '',
-                    plateformeInitiativeId: ''
+                    plateformeInitiativeId: '',
+                    role: role // Réinitialiser avec la valeur de la prop
                 });
             } else {
-                alert('Pb creation AdminD.');
+                alert('Problème lors de la création de l\'utilisateur.');
             }
         } catch (error) {
             console.error('Erreur réseau:', error);
-            alert('Pb Front > Back');
+            alert('Problème de communication avec le serveur.');
         }
     };
 
     return (
         <>
-            <h2>H2 du composant Création AdministrateurD</h2>
+            <h2>Création compte {typeUtilisateur}</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Nom d'utilisateur:</label>
@@ -158,17 +165,17 @@ const CreationAdminD: React.FC = () => {
                         required
                     >
                         <option value="" disabled>-- Sélectionnez une plateforme --</option>
-                        {plateformes.map((plateforme, index) => (
+                        {plateformes.map((plateforme) => (
                             <option key={plateforme.id} value={plateforme.id}>
                                 {plateforme.nom}
                             </option>
                         ))}
                     </select>
                 </div>
-                <button type="submit">Création Administrateur départemental</button>
+                <button type="submit">Création {typeUtilisateur}</button>
             </form>
         </>
     );
 };
 
-export default CreationAdminD;
+export default CreationUtilisateur;

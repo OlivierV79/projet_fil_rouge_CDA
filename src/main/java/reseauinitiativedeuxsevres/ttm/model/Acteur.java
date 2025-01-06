@@ -1,32 +1,26 @@
 package reseauinitiativedeuxsevres.ttm.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.OneToMany;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
 @MappedSuperclass
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public abstract class Acteur extends Utilisateur{
 
-    private Boolean actif;
 
-    private String disponibilites;
+    private Boolean actif = false;
 
-    private String contactPrefere; //TODO REVOIR POUR LIST
+    private String disponibilites; //TODO Voir principe
 
-    @OneToMany
-    private List<Accompagnement> accompagnements;
-
+    private String contactPrefere; //TODO Voir principe
 
     private String description;
 
-    @OneToMany
-    private List<DomaineActivite> domainesActivite;
 
-    @OneToMany
-    private List<Lieu> lieux;
+
+
 }
