@@ -21,4 +21,8 @@ public class Accompagnement {
     @JsonBackReference
     @ManyToMany(mappedBy = "accompagnements")
     private List<Parrain> parrains;
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "accompagnements")
+    private List<Membre> membres;
 }

@@ -21,4 +21,8 @@ public class DomaineActivite {
     @JsonBackReference
     @ManyToMany(mappedBy = "domaine_activites")
     private List<Parrain> parrains;
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "domaine_activites")
+    private List<Membre> membres;
 }

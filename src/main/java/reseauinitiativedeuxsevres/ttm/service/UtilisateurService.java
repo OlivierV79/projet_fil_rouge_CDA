@@ -16,26 +16,21 @@ import java.util.stream.Collectors;
 @Service
 public class UtilisateurService {
 
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    private final PlateformeInitiativeRepository plateformeInitiativeRepository;
+    private final RoleRepository roleRepository;
+    private final AdminRepository adminRepository;
+    private final MembreRepository membreRepository;
 
     @Autowired
-    private AdminGeneralRepository adminGeneralRepository;
-
-    @Autowired
-    private AdminDepartementalRepository adminDepartementalRepository;
-
-    @Autowired
-    private PorteurRepository porteurRepository;
-
-    @Autowired
-    private ParrainRepository parrainRepository;
-
-    @Autowired
-    private PlateformeInitiativeRepository plateformeInitiativeRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
+    public UtilisateurService(PlateformeInitiativeRepository plateformeInitiativeRepository,
+                              RoleRepository roleRepository,
+                              AdminRepository adminRepository,
+                              MembreRepository membreRepository) {
+        this.plateformeInitiativeRepository = plateformeInitiativeRepository;
+        this.roleRepository = roleRepository;
+        this.adminRepository = adminRepository;
+        this.membreRepository = membreRepository;
+    }
 
     public Utilisateur creationUtilisateur(UtilisateurDTO utilisateurDTO) {
 
@@ -47,12 +42,9 @@ public class UtilisateurService {
         Role role = roleRepository.findById(utilisateurDTO.getRole())
                 .orElseThrow(() -> new RuntimeException("Role non trouvé"));
 
-
         utilisateur = switch (role.getNom()) {
-            case "Administrateur général" -> new AdminGeneral();
-            case "Administrateur départemental" -> new AdminDepartemental();
-            case "Porteur" -> new Porteur();
-            case "Parrain" -> new Parrain();
+            case "Administrateur général", "Administrateur départemental" -> new Admin();
+            case "Porteur", "Parrain" -> new Membre();
             default -> throw new IllegalArgumentException("Type d'utilisateur non supporté");
         };
 
@@ -65,16 +57,10 @@ public class UtilisateurService {
         utilisateur.setPlateformeInitiative(plateformeInitiative);
         utilisateur.setRole(role);
 
-        if (utilisateur instanceof AdminGeneral) {
-            return adminGeneralRepository.save((AdminGeneral) utilisateur);
-        } else if (utilisateur instanceof AdminDepartemental) {
-            return adminDepartementalRepository.save((AdminDepartemental) utilisateur);
-        } else if (utilisateur instanceof Porteur) {
-            return porteurRepository.save((Porteur) utilisateur);
-        } else if (utilisateur instanceof Parrain) {
-            return parrainRepository.save((Parrain) utilisateur);
+        if (utilisateur instanceof Admin) {
+            return adminRepository.save((Admin) utilisateur);
         } else {
-            throw new IllegalArgumentException("Type d'utilisateur non supporté");
+            return membreRepository.save((Membre) utilisateur);
         }
     }
 
@@ -83,19 +69,14 @@ public class UtilisateurService {
                 .orElseThrow(() -> new IllegalArgumentException("Rôle non trouvé"));
 
         switch (role.getNom()) {
-            case "Administrateur général":
-                return adminGeneralRepository.findById(id);
-            case "Administrateur départemental":
-                return adminDepartementalRepository.findById(id);
-            case "Porteur":
-                return porteurRepository.findById(id);
-            case "Parrain":
-                return parrainRepository.findById(id);
+            case "Administrateur général", "Administrateur départemental":
+                return adminRepository.findById(id);
+            case "Porteur", "Parrain":
+                return membreRepository.findById(id);
             default:
                 throw new IllegalArgumentException("Type d'utilisateur non supporté");
         }
     }
-
 
 
     public Utilisateur modifierUtilisateur(UtilisateurDTO utilisateurDTO) {
@@ -109,20 +90,12 @@ public class UtilisateurService {
         Utilisateur utilisateur;
 
         switch (role.getNom()) {
-            case "Administrateur général":
-                utilisateur = adminGeneralRepository.findById(utilisateurDTO.getId())
+            case "Administrateur général", "Administrateur départemental":
+                utilisateur = adminRepository.findById(utilisateurDTO.getId())
                         .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
                 break;
-            case "Administrateur départemental":
-                utilisateur = adminDepartementalRepository.findById(utilisateurDTO.getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
-                break;
-            case "Porteur":
-                utilisateur = porteurRepository.findById(utilisateurDTO.getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
-                break;
-            case "Parrain":
-                utilisateur = parrainRepository.findById(utilisateurDTO.getId())
+            case "Porteur", "Parrain":
+                utilisateur = membreRepository.findById(utilisateurDTO.getId())
                         .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé"));
                 break;
             default:
@@ -140,57 +113,29 @@ public class UtilisateurService {
         utilisateur.setId(utilisateur.getId());
 
 
-        if (utilisateur instanceof AdminGeneral) {
-            return adminGeneralRepository.save((AdminGeneral) utilisateur);
-        } else if (utilisateur instanceof AdminDepartemental) {
-            return adminDepartementalRepository.save((AdminDepartemental) utilisateur);
+        if (utilisateur instanceof Admin) {
+            return adminRepository.save((Admin) utilisateur);
 
-        } else if (utilisateur instanceof Porteur) {
-            ((Porteur) utilisateur).setDescription(utilisateurDTO.getDescription());
+        } else if (utilisateur instanceof Membre) {
+            ((Membre) utilisateur).setDescription(utilisateurDTO.getDescription());
 
             List<Lieu> lieux = utilisateurDTO.getLieux().stream()
                     .map(LieuDTO::toLieu)
                     .collect(Collectors.toList());
-            ((Porteur) utilisateur).setLieux(lieux);
+            ((Membre) utilisateur).setLieux(lieux);
 
             List<Accompagnement> accompagnements = utilisateurDTO.getAccompagnements().stream()
                     .map(AccompagnementDTO::toAccompagnement)
                     .collect(Collectors.toList());
-            ((Porteur) utilisateur).setAccompagnements(accompagnements);
+            ((Membre) utilisateur).setAccompagnements(accompagnements);
 
             List<DomaineActivite> domaineActivites = utilisateurDTO.getDomaine_activites().stream()
                     .map(DomaineActiviteDTO::toDomaineActivite)
                     .collect(Collectors.toList());
-            ((Porteur) utilisateur).setDomaine_activites(domaineActivites);
+            ((Membre) utilisateur).setDomaine_activites(domaineActivites);
 
-            return porteurRepository.save((Porteur) utilisateur);
+            return membreRepository.save((Membre) utilisateur);
 
-        } else if (utilisateur instanceof Parrain) {
-
-            ((Parrain) utilisateur).setDescription(utilisateurDTO.getDescription());
-
-            List<Lieu> lieux = utilisateurDTO.getLieux().stream()
-                    .map(LieuDTO::toLieu)
-                    .collect(Collectors.toList());
-            ((Parrain) utilisateur).setLieux(lieux);
-
-
-                List<Accompagnement> accompagnements = utilisateurDTO.getAccompagnements().stream()
-                        .map(AccompagnementDTO::toAccompagnement)
-                        .collect(Collectors.toList());
-                ((Parrain) utilisateur).setAccompagnements(accompagnements);
-
-
-
-
-                List<DomaineActivite> domaineActivites = utilisateurDTO.getDomaine_activites().stream()
-                        .map(DomaineActiviteDTO::toDomaineActivite)
-                        .collect(Collectors.toList());
-                ((Parrain) utilisateur).setDomaine_activites(domaineActivites);
-
-
-
-            return parrainRepository.save((Parrain) utilisateur);
         } else {
             throw new IllegalArgumentException("Type d'utilisateur non supporté");
         }

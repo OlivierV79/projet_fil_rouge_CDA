@@ -22,4 +22,8 @@ public class Lieu {
     @JsonBackReference
     @ManyToMany(mappedBy = "lieux")
     private List<Parrain> parrains;
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "lieux")
+    private List<Membre> membres;
 }
