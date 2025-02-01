@@ -3,24 +3,13 @@ INSERT INTO plateforme_initiative (nom) VALUES ('Nouvelle Aquitaine'), ('Charent
 INSERT INTO lieu (departement, nom) VALUES ('79', 'Bressuire'), ('79', 'Celles-sur-Belle'), ('79', 'Cerizay'), ('79', 'La Gâtine'), ('79', 'Melle'), ('79', 'Mauléon'), ('79', 'Niort'), ('79', 'Parthenay'), ('79', 'Saint-Maixent-l''Ecole'), ('79', 'Thouars'), ('79', 'Le Val de Thouet');
 INSERT INTO accompagnement (nom) VALUES ('Ressources humaines'), ('Finance / Comptabilité'), ('Juridique'), ('Informatique'), ('Commercial / Communication');
 INSERT INTO domaine_activite (nom) VALUES ('Activités de services administratifs et de soutien'), ('Activités spécialisées, scientifiques et techniques'), ('Agriculture, sylviculture, pêche'), ('Arts, spectacles et activités récréatives'), ('Commerce et réparation'), ('Construction-BTP'), ('Enseignement'), ('Hôtels, cafés et restaurants'), ('Industrie'), ('Information et communication'), ('Production et distribution d’eau, assainissement, gestion des déchets et dépollution'), ('Production et distribution d’électricité, de gaz, de vapeur d’air conditionné'), ('Santé humaine et action sociale'), ('Services aux entreprises'), ('Services aux particuliers'), ('Transports');
-INSERT INTO admin_general (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id) VALUES ('oli','oli@oli.com','PIGNON','Francois','Maif',1,1);
 INSERT INTO admin (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id) VALUES ('admin','admin@oli.com','ADMIN','Admin','Maif',1,1);
-INSERT INTO porteur (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id, actif) VALUES ('porteur avec details','port1@oli.com','PORTER DETAILS','porteur details','Roule tonton',1,3, true);
 INSERT INTO membre (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id, actif) VALUES ('porteur avec details','port1@oli.com','PORTER DETAILS','porteur details','Roule tonton',1,3, true);
-INSERT INTO porteur (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id, actif) VALUES ('porteur sans details','port2@oli.com','PORTER','poaze','Roule',1,3, false);
 INSERT INTO membre (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id, actif) VALUES ('porteur sans details','port2@oli.com','PORTER','poaze','Roule',1,3, false);
 INSERT INTO membre (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id, actif) VALUES ('El padre','elpadre@oli.com','BRANDO','Marlon','Mafia Niortaise',1,4, true);
 INSERT INTO membre (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id, actif) VALUES ('La terreur','parai2n@oli.com','PACINO','Al','Mafia Gatinaise',1,4, true);
 INSERT INTO membre (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id, actif) VALUES ('parain avec details 3','parai3n@oli.com','PARRAINNN','pépépé','Pegres',1,4, true);
-INSERT INTO porteur_lieu (porteur_id, lieu_id) VALUES ('1','1'),('1','2');
 INSERT INTO membre_lieu (membre_id, lieu_id) VALUES ('1','1'),('1','2'),('3','3'),('3','4'),('3','1'),('4','2'),('4','3'),('5','4');
-INSERT INTO porteur_accompagnement (porteur_id, accompagnement_id) VALUES ('1','1'),('1','2');
 INSERT INTO membre_accompagnement (membre_id, accompagnement_id) VALUES ('1','1'),('1','2'),('3','3'),('3','4'),('3','1'),('4','2'),('4','1'),('5','2');
-INSERT INTO porteur_domaine_activite (porteur_id, domaine_activite_id) VALUES ('1','1'),('1','2');
 INSERT INTO membre_domaine_activite (membre_id, domaine_activite_id) VALUES ('1','1'),('1','2'),('3','3'),('3','4'),('3','1'),('4','2'),('4','1'),('5','2');
-INSERT INTO parrain (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id, actif) VALUES ('El padre','elpadre@oli.com','BRANDO','Marlon','Mafia Niortaise',1,4, true);
-INSERT INTO parrain (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id, actif) VALUES ('La terreur','parai2n@oli.com','PACINO','Al','Mafia Gatinaise',1,4, true);
-INSERT INTO parrain (nom_utilisateur, mail,nom, prenom, entreprise, plateforme_initiative_id, role_id, actif) VALUES ('parain avec details 3','parai3n@oli.com','PARRAINNN','pépépé','Pegres',1,4, true);
-INSERT INTO parrain_lieu (parrain_id, lieu_id) VALUES ('1','3'),('1','4'),('1','1'),('1','2'),('2','3'),('2','4');
-INSERT INTO parrain_accompagnement (parrain_id, accompagnement_id) VALUES ('1','3'),('1','4'),('1','1'),('1','2'),('2','1'),('2','2');
-INSERT INTO parrain_domaine_activite (parrain_id, domaine_activite_id) VALUES ('1','3'),('1','4'),('1','1'),('1','2'),('2','1'),('2','2');
+-- ajout plus de detail sur membre

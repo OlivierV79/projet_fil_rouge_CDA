@@ -36,10 +36,10 @@ public class UtilisateurService {
 
         Utilisateur utilisateur;
 
-        PlateformeInitiative plateformeInitiative = plateformeInitiativeRepository.findById(utilisateurDTO.getPlateformeInitiativeId())
+        PlateformeInitiative plateformeInitiative = plateformeInitiativeRepository.findById(utilisateurDTO.getPlateformeInitiative().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Plateforme non trouvée"));
 
-        Role role = roleRepository.findById(utilisateurDTO.getRole())
+        Role role = roleRepository.findById(utilisateurDTO.getRole().getId())
                 .orElseThrow(() -> new RuntimeException("Role non trouvé"));
 
         utilisateur = switch (role.getNom()) {
@@ -81,10 +81,10 @@ public class UtilisateurService {
 
     public Utilisateur modifierUtilisateur(UtilisateurDTO utilisateurDTO) {
 
-        PlateformeInitiative plateformeInitiative = plateformeInitiativeRepository.findById(utilisateurDTO.getPlateformeInitiativeId())
-                .orElseThrow(() -> new IllegalArgumentException("Plateforme non trouvée"));
+//        PlateformeInitiative plateformeInitiative = plateformeInitiativeRepository.findById(utilisateurDTO.getPlateformeInitiative().getId())
+//                .orElseThrow(() -> new IllegalArgumentException("Plateforme non trouvée"));
 
-        Role role = roleRepository.findById(utilisateurDTO.getRole())
+        Role role = roleRepository.findById(utilisateurDTO.getRole().getId())
                 .orElseThrow(() -> new RuntimeException("Role non trouvé"));
 
         Utilisateur utilisateur;
@@ -108,7 +108,8 @@ public class UtilisateurService {
         utilisateur.setNom(utilisateurDTO.getNom());
         utilisateur.setPrenom(utilisateurDTO.getPrenom());
         utilisateur.setEntreprise(utilisateurDTO.getEntreprise());
-        utilisateur.setPlateformeInitiative(plateformeInitiative);
+        //utilisateur.setPlateformeInitiative(plateformeInitiative);
+        utilisateur.setPlateformeInitiative(utilisateurDTO.getPlateformeInitiative().toPlateformeInitiative());
         utilisateur.setRole(role);
         utilisateur.setId(utilisateur.getId());
 
@@ -119,20 +120,20 @@ public class UtilisateurService {
         } else if (utilisateur instanceof Membre) {
             ((Membre) utilisateur).setDescription(utilisateurDTO.getDescription());
 
-            List<Lieu> lieux = utilisateurDTO.getLieux().stream()
-                    .map(LieuDTO::toLieu)
-                    .collect(Collectors.toList());
-            ((Membre) utilisateur).setLieux(lieux);
-
-            List<Accompagnement> accompagnements = utilisateurDTO.getAccompagnements().stream()
-                    .map(AccompagnementDTO::toAccompagnement)
-                    .collect(Collectors.toList());
-            ((Membre) utilisateur).setAccompagnements(accompagnements);
-
-            List<DomaineActivite> domaineActivites = utilisateurDTO.getDomaine_activites().stream()
-                    .map(DomaineActiviteDTO::toDomaineActivite)
-                    .collect(Collectors.toList());
-            ((Membre) utilisateur).setDomaine_activites(domaineActivites);
+//            List<Lieu> lieux = utilisateurDTO.getLieux().stream()
+//                    .map(LieuDTO::toLieu)
+//                    .collect(Collectors.toList());
+//            ((Membre) utilisateur).setLieux(lieux);
+//
+//            List<Accompagnement> accompagnements = utilisateurDTO.getAccompagnements().stream()
+//                    .map(AccompagnementDTO::toAccompagnement)
+//                    .collect(Collectors.toList());
+//            ((Membre) utilisateur).setAccompagnements(accompagnements);
+//
+//            List<DomaineActivite> domaineActivites = utilisateurDTO.getDomaineActivites().stream()
+//                    .map(DomaineActiviteDTO::toDomaineActivite)
+//                    .collect(Collectors.toList());
+//            ((Membre) utilisateur).setDomaine_activites(domaineActivites);
 
             return membreRepository.save((Membre) utilisateur);
 

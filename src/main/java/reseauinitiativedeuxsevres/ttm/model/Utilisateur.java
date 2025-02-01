@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+//TODO pour spring security > faire Utilisateur extends userDetails
 public abstract class Utilisateur {
 
     @Id

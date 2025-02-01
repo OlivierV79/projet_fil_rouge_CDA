@@ -14,13 +14,7 @@ public class DomaineActivite {
     private Long id;
     private String nom;
 
-    @JsonBackReference
-    @ManyToMany(mappedBy = "domaine_activites")
-    private List<Porteur> porteurs;
 
-    @JsonBackReference
-    @ManyToMany(mappedBy = "domaine_activites")
-    private List<Parrain> parrains;
 
     @JsonBackReference
     @ManyToMany(mappedBy = "domaine_activites")

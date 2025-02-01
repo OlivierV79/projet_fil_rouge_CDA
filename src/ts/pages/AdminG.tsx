@@ -5,7 +5,7 @@ const AdminG: React.FC = () => {
     return (
         <>
             <h1>H1 de la page AdminG</h1>
-            <CreationUtilisateur role={"2"} typeUtilisateur={"Administrateur départemantal"}/>
+            <CreationUtilisateur roleId={"2"} typeUtilisateur={"Administrateur départemantal"}/>
         </>
 
     )

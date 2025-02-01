@@ -1,6 +1,7 @@
 package reseauinitiativedeuxsevres.ttm.model.DTO;
 
 import lombok.Data;
+import reseauinitiativedeuxsevres.ttm.model.PlateformeInitiative;
 
 
 import java.util.List;
@@ -13,13 +14,13 @@ public class UtilisateurDTO {
     private String password;
     private String nom;
     private String prenom;
-    private Long role;
+    private RoleDTO role;
     private String entreprise;
-    private Long plateformeInitiativeId;
+    private PlateformeInitiativeDTO plateformeInitiative;
 
     private String description;
 
-    private List<LieuDTO> lieux;
-    private List<AccompagnementDTO> accompagnements;
-    private List<DomaineActiviteDTO> domaine_activites;
+//    private List<LieuDTO> lieux;
+//    private List<AccompagnementDTO> accompagnements;
+//    private List<DomaineActiviteDTO> domaineActivites;
 }

@@ -14,13 +14,7 @@ public class Accompagnement {
     private Long id;
     private String nom;
 
-    @JsonBackReference
-    @ManyToMany(mappedBy = "accompagnements")
-    private List<Porteur> porteurs;
 
-    @JsonBackReference
-    @ManyToMany(mappedBy = "accompagnements")
-    private List<Parrain> parrains;
 
     @JsonBackReference
     @ManyToMany(mappedBy = "accompagnements")

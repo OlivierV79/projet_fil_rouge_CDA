@@ -20,16 +20,12 @@ classDiagram
     
     
     
-    class AdminGeneral{
-        + creerAdminDepartemental()
+    class Admin{
+       
     }
     
-    class AdminDepartemental{
-        + creerUtilisateur()        
-    }
-    
-    class Acteurs{
-        <<abstract>>
+      
+    class Membre{
         - Boolean actif
         - String disponibilites / choix possibles
         - String contactPrefere /mobile ou mail
@@ -40,13 +36,7 @@ classDiagram
         + modifierProfil()
         }
         
-    class Porteur{
-        - LocalDateTime dateDebut
-         }
     
-    class Parrain{
-        - Integer nombreParrainagePossible
-        }
         
         class Accompgnement {
             Integer id
@@ -74,23 +64,16 @@ classDiagram
         }
         
         
-
-
-    Utilisateur <|-- AdminGeneral
-    Utilisateur <|-- AdminDepartemental
-    Utilisateur <|-- Acteurs
+    Utilisateur <|-- Admin
+    Utilisateur <|-- Membre
     Utilisateur --> PlateformeInitiative
     Utilisateur --> Role
-    Acteurs <|-- Porteur
-    Acteurs <|-- Parrain
+    
+    Membre --> Accompgnement
+    Membre --> DomaineActivite
+    Membre --> Lieu
 
-    Porteur --> Accompgnement
-    Porteur --> DomaineActivite
-    Porteur --> Lieu
-
-    Parrain --> Accompgnement
-    Parrain --> DomaineActivite
-    Parrain --> Lieu
+    
 
   
     

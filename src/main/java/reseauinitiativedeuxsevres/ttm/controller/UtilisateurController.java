@@ -36,6 +36,7 @@ public class UtilisateurController {
     @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping("/modifierUtilisateur")
     public ResponseEntity<Utilisateur> modificationUtilisateur(@RequestBody UtilisateurDTO utilisateurDTO){
+        System.out.println("Received UtilisateurDTO: " + utilisateurDTO);
         Utilisateur utilisateurApresModif = utilisateurService.modifierUtilisateur(utilisateurDTO);
         return ResponseEntity.ok(utilisateurApresModif);
     }

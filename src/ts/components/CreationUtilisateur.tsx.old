@@ -7,7 +7,7 @@ interface UtilisateurFormData {
     nom: string;
     prenom: string;
     entreprise: string;
-    plateformeInitiative: PlateformeInitiative;
+    plateformeInitiative: string;
     role: Role;
 }
 
@@ -16,12 +16,18 @@ interface Role {
     nom: string;
 }
 
-interface PlateformeInitiative {
+interface Plateforme {
     id: number;
     nom: string;
 }
 
-const CreationUtilisateur: React.FC = () => {
+interface CreationUtilisateurProps {
+    role: string;
+    typeUtilisateur: string;
+}
+
+
+const CreationUtilisateur: React.FC<CreationUtilisateurProps> = ({ role, typeUtilisateur }) => {
     const [formData, setFormData] = useState<UtilisateurFormData>({
         nomUtilisateur: '',
         mail: '',
@@ -29,12 +35,16 @@ const CreationUtilisateur: React.FC = () => {
         nom: '',
         prenom: '',
         entreprise: '',
-        plateformeInitiative: { id: 0, nom: '' },
-        role: { id: 0, nom: '' }
+        plateformeInitiative: '',
+        role: role
     });
 
-    const [plateformes, setPlateformes] = useState<PlateformeInitiative[]>([]);
-    const [roles, setRoles] = useState<Role[]>([]);
+    const [plateformes, setPlateformes] = useState<Plateforme[]>([]);
+
+    const [roles, setRoles] = useState<Role[]>([
+        { id: 3, nom: 'Porteur' },
+        { id: 4, nom: 'Parrain' }
+    ]);
 
     useEffect(() => {
         const fetchPlateformes = async () => {
@@ -54,35 +64,9 @@ const CreationUtilisateur: React.FC = () => {
         fetchPlateformes();
     }, []);
 
-    useEffect(() => {
-        const fetchRoles = async () => {
-            try {
-                const response = await fetch('http://localhost:8080/api/role/roles');
-                if (response.ok) {
-                    const data = await response.json();
-                    setRoles(data);
-                } else {
-                    console.error('Erreur lors du chargement des rôles');
-                }
-            } catch (error) {
-                console.error('Erreur réseau lors du chargement des rôles', error);
-            }
-        };
-
-        fetchRoles();
-    }, []);
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        if (name === 'role') {
-            const selectedRole = roles.find(role => role.id === parseInt(value, 10));
-            setFormData({ ...formData, role: selectedRole! });
-        } else if (name === 'plateformeInitiative') {
-            const selectedPlateforme = plateformes.find(plateforme => plateforme.id === parseInt(value, 10));
-            setFormData({ ...formData, plateformeInitiative: selectedPlateforme! });
-        } else {
-            setFormData({ ...formData, [name]: value });
-        }
+        setFormData({ ...formData, [name]: value });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -106,12 +90,11 @@ const CreationUtilisateur: React.FC = () => {
                     nom: '',
                     prenom: '',
                     entreprise: '',
-                    plateformeInitiative: { id: 0, nom: '' },
-                    role: { id: 0, nom: '' }
+                    plateformeInitiative: '',
+                    role: role
                 });
             } else {
-                const errorData = await response.json();
-                alert(`Problème lors de la création de l'utilisateur: ${errorData.message}`);
+                alert('Problème lors de la création de l\'utilisateur.');
             }
         } catch (error) {
             console.error('Erreur réseau:', error);
@@ -121,40 +104,8 @@ const CreationUtilisateur: React.FC = () => {
 
     return (
         <>
-            <h2>Création compte</h2>
+            <h2>Création compte {typeUtilisateur}</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Rôle:</label>
-                    <select
-                        name="role"
-                        value={formData.role.id}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="0" disabled>-- Sélectionnez un rôle --</option>
-                        {roles.map((role) => (
-                            <option key={role.id} value={role.id}>
-                                {role.nom}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label>Plateforme Initiative de référence:</label>
-                    <select
-                        name="plateformeInitiative"
-                        value={formData.plateformeInitiative.id}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="0" disabled>-- Sélectionnez une plateforme --</option>
-                        {plateformes.map((plateforme) => (
-                            <option key={plateforme.id} value={plateforme.id}>
-                                {plateforme.nom}
-                            </option>
-                        ))}
-                    </select>
-                </div>
                 <div>
                     <label>Nom d'utilisateur:</label>
                     <input
@@ -215,7 +166,23 @@ const CreationUtilisateur: React.FC = () => {
                         required
                     />
                 </div>
-                <button type="submit">Création</button>
+                <div>
+                    <label>Plateforme Initiative de référence:</label>
+                    <select
+                        name="plateformeInitiativeId"
+                        value={formData.plateformeInitiative}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="" disabled>-- Sélectionnez une plateforme --</option>
+                        {plateformes.map((plateforme) => (
+                            <option key={plateforme.id} value={plateforme.id}>
+                                {plateforme.nom}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <button type="submit">Création {typeUtilisateur}</button>
             </form>
         </>
     );

@@ -15,13 +15,6 @@ public class Lieu {
     private String departement;
     private String nom;
 
-    @JsonBackReference
-    @ManyToMany(mappedBy = "lieux")
-    private List<Porteur> porteurs;
-
-    @JsonBackReference
-    @ManyToMany(mappedBy = "lieux")
-    private List<Parrain> parrains;
 
     @JsonBackReference
     @ManyToMany(mappedBy = "lieux")
