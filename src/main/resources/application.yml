@@ -5,7 +5,7 @@ spring:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/trouve_ton_match?currentSchema=public
     username: postgres
-    password: postgres
+    password: password
   jpa:
     show-sql: true
     hibernate:
