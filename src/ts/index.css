@@ -1,68 +1,121 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html, body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  height: 100%;
+  width: 100%;
 }
+
+
 
 a {
   font-weight: 500;
   color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  text-decoration: none;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+ul, ol {
+  list-style-type: none; /* Supprime les puces et les numéros */
+  padding: 0; /* Supprime le retrait par défaut */
+  margin: 0; /* Supprime les marges par défaut */
 }
+
 
 h1 {
   font-size: 3.2em;
-  line-height: 1.1;
+}
+
+h2 {
+  color: #e51968;
+  font-size: 2.5em;
+  margin-top: 0;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  padding: 10px 15px;
+  background-color: #e51968;
+  color: white;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  align-self: center;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+
+
+main {
+  background-image: url('/src/ts/assets/image_de_fond.jpg');
+  flex: 1;
+  background-size: cover;
+  padding-top: 50px;
+}
+
+/* CARD ------------------------------------------------- */
+
+.card {
+  background: #fff;
+  border-radius: 5px;
+  padding: 30px;
+  margin: 30px;
+}
+
+.card-creation-compte{
+  width: 400px;
+
+}
+
+.visu-compte-profil-section {
+  margin: 8px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.visu-compte-profil-section-liste {
+  display: flex  ;
+  align-items: flex-start;
+}
+
+.visu-compte-profil-section-liste li {
+  text-align: left;
+}
+
+
+
+.visu-compte-profil-section p {
+  margin: 0px;
+  text-align: left;
+}
+
+
+
+
+
+/* ajouter pour le formulaire  ------------------------------------------------- */
+
+.card form {
+  display: flex;
+  flex-direction: column;
+}
+
+.card form div {
+  margin-bottom: 15px;
+}
+
+.card form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.card form input,
+.card form select,
+.card form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  /* ajouter pour le formulaire  -------------------FIN------------------------------ */
 }

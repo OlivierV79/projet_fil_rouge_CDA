@@ -39,7 +39,7 @@ interface Role {
 }
 
 interface UtilisateurDetailsProps {
-    porteurId: number;
+    utilisateurId: number;
     roleId: number;
 }
 
@@ -77,23 +77,23 @@ const DetailsUtilisateur: React.FC<UtilisateurDetailsProps> = ({ utilisateurId, 
     }
 
     return (
-        <div>
+        <div className="card">
             {utilisateur ? (
                 <div>
-                    <h2>Détails Utilisateur</h2>
-                    <p><strong>Statut du compte:</strong> {utilisateur.actif ? 'Actif' : 'Non actif'}</p>
-                    <p><strong>Type de compte:</strong> {utilisateur.role.nom}</p>
-                    <p><strong>Nom d'utilisateur:</strong> {utilisateur.nomUtilisateur}</p>
-                    <p><strong>Email:</strong> {utilisateur.mail}</p>
-                    <p><strong>Nom:</strong> {utilisateur.nom}</p>
-                    <p><strong>Prénom:</strong> {utilisateur.prenom}</p>
-                    <p><strong>Entreprise:</strong> {utilisateur.entreprise}</p>
-                    <p><strong>Disponibilités:</strong> {utilisateur.disponibilites}</p>
-                    <p><strong>Contact Préféré:</strong> {utilisateur.contactPrefere}</p>
-                    <p><strong>Description:</strong> {utilisateur.description}</p>
+                    <h2>Détails Utilisateur Complet</h2>
+                    <p>Statut du compte : {utilisateur.actif ? 'Actif' : 'Non actif'}</p>
+                    <p>Type de compte : {utilisateur.role.nom}</p>
+                    <p>Nom d'utilisateur : {utilisateur.nomUtilisateur}</p>
+                    <p>Email : {utilisateur.mail}</p>
+                    <p>Nom : {utilisateur.nom}</p>
+                    <p>Prénom : {utilisateur.prenom}</p>
+                    <p>Entreprise : {utilisateur.entreprise}</p>
+                    <p>Disponibilités : {utilisateur.disponibilites}</p>
+                    <p>Contact Préféré : {utilisateur.contactPrefere}</p>
+                    <p>Description : {utilisateur.description}</p>
                     {utilisateur.role.id === 3 || utilisateur.role.id === 4 ? (
                         <>
-                            <h3>Situation géographique</h3>
+                            <p>Situation géographique :</p>
                             <ul>
                                 {utilisateur.lieux.length > 0 ? (
                                     utilisateur.lieux.map((lieu) => (
@@ -106,7 +106,7 @@ const DetailsUtilisateur: React.FC<UtilisateurDetailsProps> = ({ utilisateurId, 
                                 )}
                             </ul>
 
-                            {utilisateur.role == 3 ? <h3>Accompagnements demandés</h3> : <h3>Accompagnements proposés</h3>}
+                            {utilisateur.role.id == 3 ? <p>Accompagnements demandés :</p> : <p>Accompagnements proposés :</p>}
                             <ul>
                                 {utilisateur.accompagnements.length > 0 ? (
                                     utilisateur.accompagnements.map((accompagnement) => (
@@ -118,7 +118,7 @@ const DetailsUtilisateur: React.FC<UtilisateurDetailsProps> = ({ utilisateurId, 
                                     <li>Non renseigné</li>
                                 )}
                             </ul>
-                            <h3>Domaines d'activité</h3>
+                            <p>Domaines d'activité :</p>
                             <ul>
                                 {utilisateur.domaine_activites.length > 0 ? (
                                     utilisateur.domaine_activites.map((domaine) => (

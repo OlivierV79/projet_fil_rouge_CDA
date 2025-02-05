@@ -1,6 +1,5 @@
 import React from 'react';
-import DetailsUtilisateur from "../components/DetailsUtilisateur";
-import ModifierUtilisateur from "../components/ModifierUtilisateur";
+import ModifierUtilisateur from "../components/modifierUtilisateur/ModifierUtilisateur.tsx";
 
 const Parrain: React.FC = () => {
     return (

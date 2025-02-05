@@ -1,11 +1,11 @@
 import React from 'react';
-import CreationUtilisateur from "../components/CreationUtilisateur";
+import CreationUtilisateur from "../components/creationUtilisateur/CreationUtilisateur.tsx";
 
 const AdminG: React.FC = () => {
     return (
         <>
             <h1>H1 de la page AdminG</h1>
-            <CreationUtilisateur roleId={"2"} typeUtilisateur={"Administrateur départemantal"}/>
+            <CreationUtilisateur />
         </>
 
     )

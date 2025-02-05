@@ -4,30 +4,35 @@ import {Link} from "react-router-dom";
 const PageTest: React.FC = () => {
     return (
         <>
-            <h1>H1 de la page de test</h1>
-            <ul>
-                <li>
-                    <Link to="/AdminG">
-                        Vers la page de l'administrateur général (Régional)
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/AdminD">
-                        Vers la page de l'administrateur départemental
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/Porteur">
-                        Vers la page d'un porteur de projet'
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/Parrain">
-                        Vers la page d'un parrain
-                    </Link>
-                </li>
-                <li></li>
-            </ul>
+                <h1>Page de test</h1>
+            <div className="card">
+                <ul>
+                    <li>
+                        <Link to="/AdminG">
+                            Page administrateur général (Régional)
+                        </Link>
+
+                    </li>
+                    <br/>
+                    <li>
+                        <Link to="/AdminD">
+                            Page administrateur départemental
+                        </Link>
+                    </li>
+                    <br/>
+                    <li>
+                        <Link to="/Porteur">
+                            Page porteur de projet
+                        </Link>
+                    </li>
+                    <br/>
+                    <li>
+                        <Link to="/Parrain">
+                            Page parrain
+                        </Link>
+                    </li>
+                </ul>
+            </div>
 
         </>
 

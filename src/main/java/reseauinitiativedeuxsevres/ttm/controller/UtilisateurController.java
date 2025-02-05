@@ -5,9 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reseauinitiativedeuxsevres.ttm.model.DTO.UtilisateurDTO;
+import reseauinitiativedeuxsevres.ttm.model.Membre;
 import reseauinitiativedeuxsevres.ttm.model.Utilisateur;
 import reseauinitiativedeuxsevres.ttm.service.UtilisateurService;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -26,6 +28,14 @@ public class UtilisateurController {
     }
 
     @CrossOrigin(origins = "http://localhost:5173")
+    @PutMapping("/modifierUtilisateur")
+    public ResponseEntity<Utilisateur> modificationUtilisateur(@RequestBody UtilisateurDTO utilisateurDTO){
+        System.out.println("Received UtilisateurDTO: " + utilisateurDTO);
+        Utilisateur utilisateurApresModif = utilisateurService.modifierUtilisateur(utilisateurDTO);
+        return ResponseEntity.ok(utilisateurApresModif);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/{id}/{roleId}")
     public ResponseEntity<? extends Utilisateur> getUtilisateurByIdAndRole(@PathVariable Long id, @PathVariable Long roleId) {
         Optional<? extends Utilisateur> utilisateur = utilisateurService.findUtilisateurByIdAndRole(id, roleId);
@@ -34,10 +44,13 @@ public class UtilisateurController {
     }
 
     @CrossOrigin(origins = "http://localhost:5173")
-    @PutMapping("/modifierUtilisateur")
-    public ResponseEntity<Utilisateur> modificationUtilisateur(@RequestBody UtilisateurDTO utilisateurDTO){
-        System.out.println("Received UtilisateurDTO: " + utilisateurDTO);
-        Utilisateur utilisateurApresModif = utilisateurService.modifierUtilisateur(utilisateurDTO);
-        return ResponseEntity.ok(utilisateurApresModif);
+    @GetMapping("/")
+    public ResponseEntity<List<Membre>> getAllMembre() {
+        List<Membre> membres = utilisateurService.findAllMembre();
+        if (membres.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(membres);
+        }
     }
 }

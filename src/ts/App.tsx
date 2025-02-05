@@ -6,18 +6,22 @@ import AdminG from "./pages/AdminG";
 import AdminD from "./pages/AdminD";
 import Porteur from "./pages/Porteur";
 import Parrain from "./pages/Parrain";
+import Layout from "./components/layout/Layout.tsx";
 
 function App() {
     return (
         <>
             <BrowserRouter>
-                <Routes>
-                    <Route path={"/"} element={<PageTest/>}/>
-                    <Route path={"/AdminG"} element={<AdminG/>}/>
-                    <Route path={"/AdminD"} element={<AdminD/>}/>
-                    <Route path={"/Porteur"} element={<Porteur/>}/>
-                    <Route path={"/Parrain"} element={<Parrain/>}/>
-                </Routes>
+                <Layout>
+                    <Routes>
+                        <Route path={"/"} element={<PageTest/>}/>
+                        <Route path={"/AdminG"} element={<AdminG/>}/>
+                        <Route path={"/AdminD"} element={<AdminD/>}/>
+                        <Route path={"/Porteur"} element={<Porteur/>}/>
+                        <Route path={"/Parrain"} element={<Parrain/>}/>
+                    </Routes>
+                </Layout>
+
             </ BrowserRouter>
         </>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import CreationUtilisateur from "../components/CreationUtilisateur";
+import CreationUtilisateur from "../components/creationUtilisateur/CreationUtilisateur.tsx";
 
 const AdminD: React.FC = () => {
     return (

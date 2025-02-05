@@ -120,11 +120,11 @@ const CreationUtilisateur: React.FC = () => {
     };
 
     return (
-        <>
+        <div className="card card-creation-compte">
             <h2>Création compte</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Rôle:</label>
+                    <label>Rôle de l'utilisateur:</label>
                     <select
                         name="role"
                         value={formData.role.id}
@@ -139,6 +139,7 @@ const CreationUtilisateur: React.FC = () => {
                         ))}
                     </select>
                 </div>
+
                 <div>
                     <label>Plateforme Initiative de référence:</label>
                     <select
@@ -217,7 +218,7 @@ const CreationUtilisateur: React.FC = () => {
                 </div>
                 <button type="submit">Création</button>
             </form>
-        </>
+        </div>
     );
 };
 
