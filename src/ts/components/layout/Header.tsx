@@ -14,7 +14,8 @@ const Header: React.FC = () => {
                     <li>Messagerie</li>
                     <li>Documents</li>
                     <li>Statistiques</li>
-                    <li>Utilisateurs/Membres</li>
+                    <li>Gestion membres</li>
+                    <li>Gestion plateformes</li>
                     <li>Profil</li>
                     <li>Déconnexion</li>
 

@@ -21,6 +21,7 @@ public class Membre extends Utilisateur{
 
     private String contactPrefere; //TODO Voir principe
 
+    @Column(length = 1337)
     private String description;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})

@@ -1,0 +1,39 @@
+.carousel {
+    position: relative;
+    width: 700px;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #7BCD35;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.carousel-button.prev {
+    left: 0px;
+    z-index: 1;
+}
+
+.carousel-button.next {
+    right: 10px;
+}
+
+.coursel-nav{
+ font-size: x-large;
+}

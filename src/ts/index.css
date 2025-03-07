@@ -15,14 +15,16 @@ a {
 }
 
 ul, ol {
-  list-style-type: none; /* Supprime les puces et les numéros */
-  padding: 0; /* Supprime le retrait par défaut */
-  margin: 0; /* Supprime les marges par défaut */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 
 h1 {
   font-size: 3.2em;
+  margin: 0;
+  padding-top : 50px;
 }
 
 h2 {
@@ -61,14 +63,19 @@ main {
 
 .card-creation-compte{
   width: 400px;
+}
 
+.card-modifier-utilisateur{
+  width: 600px;
 }
 
 .visu-compte-profil-section {
-  margin: 8px;
+  margin-right: 8px;
+  margin-left: 8px;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 100%;
 }
 
 .visu-compte-profil-section-liste {
@@ -81,15 +88,68 @@ main {
 }
 
 
-
 .visu-compte-profil-section p {
   margin: 0px;
   text-align: left;
 }
 
+.card-visu-compte-profil img{
+  width: 200px;
+}
 
+.card-visu-compte-profil-recherche{
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+}
 
+.card-visu-compte-profil-recherche img{
+  width: 200px;
+  height: 200px;
+}
 
+.card-visu-compte-profil-recherche .nom{
+font-size: 2rem;
+}
+
+.card-visu-compte-profil-recherche p{
+  padding: 2px;
+}
+
+.card-visu-compte-profil-recherche .petit{
+  display: flex;
+}
+
+.card-visu-compte-profil-recherche .presentation{
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.profil-description-recherche{
+  width: 100%;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  text-align: justify;
+}
+
+.profil-description-recherche{
+  text-align: justify;
+}
+
+.presentation-bouton{
+  padding: 10px;
+}
+
+.presentation-bouton button{
+  margin: 5px;
+}
 
 /* ajouter pour le formulaire  ------------------------------------------------- */
 
@@ -119,3 +179,28 @@ main {
 
   /* ajouter pour le formulaire  -------------------FIN------------------------------ */
 }
+
+.card form textarea {
+  height: 100px;
+}
+
+.label-choix{
+  font-weight: normal !important;
+  display: flex !important;
+  flex-direction: row-reverse;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.input-choix{
+width: 20px !important;
+}
+
+.section-choix{
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+

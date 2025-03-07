@@ -5,9 +5,21 @@ import DetailsMembreRecherche from "../components/detailsUtilisateur/DetailsMemb
 const Porteur: React.FC = () => {
     return (
         <>
-            <h1>H1 de la page Porteur</h1>
-            <DetailsMembreRecherche />
-            <DetailsUtilisateurProfil utilisateurId={1} roleId={3} />
+            <h1>Porteur</h1>
+            <br/>
+            <button>Consulter les parrains</button>
+            <br/>
+            <button>Modifier profil</button>
+            <br/>
+            <button>Obtenir document</button>
+            <br/>
+            <button>Notification "j'ai un nouveau filleul"</button>
+            <br/>
+            <button>Modifier disponibilité</button>
+            <br/>
+
+            <DetailsMembreRecherche/>
+            <DetailsUtilisateurProfil utilisateurId={3} roleId={4}/>
         </>
     )
 };

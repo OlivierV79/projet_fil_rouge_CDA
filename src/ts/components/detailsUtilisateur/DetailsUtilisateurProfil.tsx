@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import photo from '../../assets/photo/Villaverde-Olivier-2.jpg';
 
 interface Utilisateur {
     id: number;
@@ -88,7 +89,7 @@ const DetailsUtilisateurProfil: React.FC<UtilisateurDetailsProps> = ({ utilisate
                 <div>
                     <h2>Détails Utilisateur Profil</h2>
                     <div>
-                        <div>Photo a venir</div>
+                        <img src={photo} alt="Photo de profil"/>
                         <div className="visu-compte-profil-section">
                             <p>Nom d'utilisateur : {utilisateur.nomUtilisateur}</p>
                             {utilisateur.role.id === 3 || utilisateur.role.id === 4 ? (
@@ -108,9 +109,9 @@ const DetailsUtilisateurProfil: React.FC<UtilisateurDetailsProps> = ({ utilisate
                             <>
                                 <div className="visu-compte-profil-section">
                                     <p>Entreprise : {utilisateur.entreprise}</p>
-                                    <p>Description : {utilisateur.description}</p>
-                                    <p>Disponibilités : {utilisateur.disponibilites}</p>
-                                    <p>Contact Préféré : {utilisateur.contactPrefere}</p>
+                                    <p>Description : {utilisateur.description || "non renseigné"}</p>
+                                    <p>Disponibilités : {utilisateur.disponibilites || "non renseigné"}</p>
+                                    <p>Contact Préféré : {utilisateur.contactPrefere || "non renseigné"}</p>
                                 </div>
                                 <div className="visu-compte-profil-section visu-compte-profil-section-liste">
                                     <p>Situation géographique :</p>

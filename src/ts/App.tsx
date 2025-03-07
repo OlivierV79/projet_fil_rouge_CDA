@@ -6,7 +6,7 @@ import AdminG from "./pages/AdminG";
 import AdminD from "./pages/AdminD";
 import Porteur from "./pages/Porteur";
 import Parrain from "./pages/Parrain";
-import Layout from "./components/layout/Layout.tsx";
+import Layout from "./components/layout/Layout";
 
 function App() {
     return (

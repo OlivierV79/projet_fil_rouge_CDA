@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import DetailsUtilisateurProfil from "./DetailsUtilisateurProfil.tsx";
+import Carousel from '../Carousel.tsx';
+import DetailsUtilisateurProfilRecherche from "./DetailsUtilisateurProfilRecherche.tsx";
 
 interface Membre {
     id: number;
@@ -48,7 +49,7 @@ interface Role {
 
 
 const DetailsMembreRecherche = () => {
-    const [membres, setMembres] = useState<List<Membre> | null>(null);
+    const [membres, setMembres] = useState<Membre[] | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -85,26 +86,15 @@ const DetailsMembreRecherche = () => {
             {membres ? (
                 <div>
                     <h2>Liste des Profils</h2>
-                    {/*--------------------------------------------------------------------------*/}
-
-                    {membres.map((membre) => (
-                        <DetailsUtilisateurProfil
-                            key={membre.id}
-                            utilisateurId={membre.id}
-                            roleId={membre.role.id}
-                        />
-                    ))}
-
-
-
-
-
-
-
-
-
-
-                    {/*--------------------------------------------------------------------------*/}
+                    <Carousel>
+                        {membres.map((membre) => (
+                            <DetailsUtilisateurProfilRecherche
+                                key={membre.id}
+                                utilisateurId={membre.id}
+                                roleId={membre.role.id}
+                            />
+                        ))}
+                    </Carousel>
                 </div>
             ) : (
                 <div>Membres non trouvés</div>

@@ -4,9 +4,25 @@ import ModifierUtilisateur from "../components/modifierUtilisateur/ModifierUtili
 const Parrain: React.FC = () => {
     return (
         <>
-            <h1>H1 de la page Parrain</h1>
-            { // <DetailsUtilisateur utilisateurId={1} roleId={4} />
-                 }
+            <h1>Parrain</h1>
+            <button>Modifier profil</button>
+            <br/>
+            <button>Obtenir document</button>
+            <br/>
+            <button>Notification "j'ai un nouveau filleul"</button>
+            <br/>
+            <button>Modifier disponibilité</button>
+            <br/>
+            <button>A venir</button>
+            <br/>
+            <button>A venir</button>
+            <br/>
+            <button>A venir</button>
+            <br/>
+            <button>A venir</button>
+            <br/>
+            <button>A venir</button>
+            <br/>
             <ModifierUtilisateur utilisateurId={3} roleId={4}/>
 
 
