@@ -1,26 +1,31 @@
-name: Validation des Pull Requests
-
+name: LIGHTHOUSE ACCES CI
 on:
-  push
-
+  push:
+    branches:
+      - master
 jobs:
-  lighthouse:
-    name: Vérification Lighthouse
+  lighthouseci:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: 18
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run Lighthouse CI
+      - name: Désactiver Nexus et forcer npm public
         run: |
-          npm install -g @lhci/cli@0.14.x
-          lhci autorun
+          echo "registry=https://registry.npmjs.org/" > ~/.npmrc
+          echo "strict-ssl=false" >> ~/.npmrc
+          npm config list
+
+      - name: Supprimer éventuelles dépendances Nexus
+        run: rm -rf node_modules package-lock.json
+
+      - name: Installer les dépendances depuis npm public
+        run: npm install --no-cache --prefer-online
+
+      - name: Installer Lighthouse CI
+        run: npm install -g @lhci/cli@0.14.x
