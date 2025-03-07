@@ -28,3 +28,6 @@ jobs:
 
       - name: Installer Lighthouse CI
         run: npm install -g @lhci/cli@0.14.x
+
+      - name: lancer Lighthouse
+        run: lhci autorun
