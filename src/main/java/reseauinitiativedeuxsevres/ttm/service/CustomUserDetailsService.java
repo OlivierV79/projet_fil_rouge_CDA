@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import reseauinitiativedeuxsevres.ttm.entity.Admin;
-import reseauinitiativedeuxsevres.ttm.entity.Membre;
+import reseauinitiativedeuxsevres.ttm.entity.Member;
 import reseauinitiativedeuxsevres.ttm.repository.AdminRepository;
-import reseauinitiativedeuxsevres.ttm.repository.MembreRepository;
+import reseauinitiativedeuxsevres.ttm.repository.MemberRepository;
 
 import java.util.Optional;
 
@@ -16,11 +16,11 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final AdminRepository adminRepository;
-    private final MembreRepository membreRepository;
+    private final MemberRepository memberRepository;
 
-    public CustomUserDetailsService(AdminRepository adminRepository, MembreRepository membreRepository) {
+    public CustomUserDetailsService(AdminRepository adminRepository, MemberRepository memberRepository) {
         this.adminRepository = adminRepository;
-        this.membreRepository = membreRepository;
+        this.memberRepository = memberRepository;
     }
 
     @Override
@@ -31,9 +31,9 @@ public class CustomUserDetailsService implements UserDetailsService {
             return admin.get();
         }
 
-        Optional<Membre> membre = membreRepository.findByUsername(username);
-        if (membre.isPresent()) {
-            return membre.get();
+        Optional<Member> member = memberRepository.findByUsername(username);
+        if (member.isPresent()) {
+            return member.get();
         }
 
         // Si aucun utilisateur trouvé

@@ -2,7 +2,6 @@ package reseauinitiativedeuxsevres.ttm.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import reseauinitiativedeuxsevres.ttm.entity.Admin;
-import reseauinitiativedeuxsevres.ttm.entity.Membre;
 
 import java.util.Optional;
 

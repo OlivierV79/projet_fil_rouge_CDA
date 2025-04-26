@@ -29,7 +29,13 @@ public abstract class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(nullable = false)
     private boolean enabled = true;
+
+    @Column(nullable = false)
+    private String email;
+
+    private String photo;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

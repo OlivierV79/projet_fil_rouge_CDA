@@ -36,20 +36,36 @@ export default App
 */
 
 
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import Login from './pages/Login';
+// src/App.tsx
+import { Routes, Route } from 'react-router-dom';
+import { PrivateRoute } from './components/PrivateRoute';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import AdminPage from './pages/AdminPage';
 
-const App: React.FC = () => {
+function App() {
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-            </Routes>
-        </Router>
+        <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+                path="/"
+                element={
+                    <PrivateRoute>
+                        <HomePage />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/admin"
+                element={
+                    <PrivateRoute>
+                        <AdminPage />
+                    </PrivateRoute>
+                }
+            />
+        </Routes>
     );
-};
+}
 
 export default App;
+
