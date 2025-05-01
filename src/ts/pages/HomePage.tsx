@@ -4,7 +4,7 @@ import React from 'react';
 const HomePage: React.FC = () => {
     return (
         <div>
-            <h1>Accueil</h1>
+            <h1>Accueil - HomePage.tsx</h1>
         </div>
     );
 };
