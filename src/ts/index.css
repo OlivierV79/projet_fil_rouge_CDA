@@ -46,7 +46,7 @@ button {
 
 
 main {
-  background-image: url('/src/ts/assets/image_de_fond.jpg');
+  background-image: url('/src/ts/assets/img/image_de_fond.jpg');
   flex: 1;
   background-size: cover;
   padding-top: 50px;
