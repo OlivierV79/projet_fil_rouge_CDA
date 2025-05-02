@@ -180,6 +180,11 @@ main {
   /* ajouter pour le formulaire  -------------------FIN------------------------------ */
 }
 
+.card form input {
+  margin-bottom:  10px;
+  width: auto;
+}
+
 .card form textarea {
   height: 100px;
 }
@@ -204,3 +209,27 @@ main {
   border-radius: 4px;
 }
 
+/* ------------------------------------ */
+
+thead tr {
+  background-color: #7BCD35;
+  color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+
+th, td {
+  padding: 12px 15px;
+}
+
+tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.appoitnment-subject {
+  text-align: left;
+}

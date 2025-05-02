@@ -22,7 +22,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         try {
-            // On authentifie avec username/password
+            // Authentifie l'utilisateur
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(),
@@ -30,10 +30,9 @@ public class AuthController {
                     )
             );
 
-            // Si ok, on génère un token
-            String token = jwtTokenProvider.generateToken(loginRequest.getUsername());
+            // Génère le token avec les infos d'authentification
+            String token = jwtTokenProvider.generateToken(authentication);
 
-            // Et on le retourne
             return ResponseEntity.ok(new JwtAuthenticationResponse(token));
 
         } catch (AuthenticationException ex) {

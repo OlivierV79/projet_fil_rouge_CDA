@@ -52,6 +52,11 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/*").permitAll()
+
+                        // TODO ---- ATTENTION A METTRE EN
+                        //.requestMatchers("/api/appointments/**").authenticated()
+                        .requestMatchers("/api/appointments/**").permitAll()
+                        .requestMatchers("/api/mentors/**").permitAll()
                         .anyRequest().authenticated()
                 );
 

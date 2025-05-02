@@ -5,6 +5,8 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import java.util.Date;
 
@@ -21,18 +23,39 @@ public class JwtTokenProvider {
     private long jwtExpirationInMs;
 
     // Generate a JWT token using the username as subject.
-    public String generateToken(String username) {
+//    public String generateToken(String username) {
+//        Date now = new Date();
+//        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+//
+//        byte[] keyBytes = jwtSecret.getBytes();
+//        return Jwts.builder()
+//                .subject(username)
+//                .issuedAt(now)
+//                .expiration(expiryDate)
+//                .signWith(Keys.hmacShaKeyFor(keyBytes))
+//                .compact();
+//    }
+
+
+    // test pour mettre plus d'info dane le token
+    public String generateToken(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         byte[] keyBytes = jwtSecret.getBytes();
+
         return Jwts.builder()
-                .subject(username)
+                .subject(userDetails.getUsername())
+                .claim("role", userDetails.getAuthorities().stream().findFirst().get().getAuthority())
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(Keys.hmacShaKeyFor(keyBytes))
                 .compact();
     }
+
+
 
     // Extract username from JWT token.
     public String getUsernameFromJWT(String token) {

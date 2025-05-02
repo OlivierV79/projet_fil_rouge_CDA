@@ -26,22 +26,29 @@ function LoginPage() {
     return (
         <>
             <h1>Trouve ton match</h1>
-            <form onSubmit={handleSubmit}>
-                <h2>Login</h2>
-                <input
-                    type="text"
-                    placeholder="Nom d'utilisateur"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Mot de passe"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit">Se connecter</button>
-            </form>
+
+            <div className="card">
+                <h2>Connexion</h2>
+
+                <form onSubmit={handleSubmit}>
+
+                    <input
+                        type="text"
+                        placeholder="Nom d'utilisateur"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Mot de passe"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button type="submit">Se connecter</button>
+                </form>
+            </div>
+
+
         </>
 
     );
