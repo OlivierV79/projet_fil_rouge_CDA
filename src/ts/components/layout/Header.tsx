@@ -26,8 +26,8 @@ const Header: React.FC = () => {
                         <li><NavLink to="/memberManagement">Gestion membres</NavLink></li>
                         <li><NavLink to="/appointmentTracking">Suivi rdv</NavLink></li>
                         <li><NavLink to="/documents">Documents</NavLink></li>
-                        <li><NavLink to="/profil">Profile</NavLink></li>
-                        <li onClick={handleLogout}>Déconnexion</li>
+                        <li><NavLink to="/profil">Profil</NavLink></li>
+                        <li onClick={handleLogout} className="logout">Déconnexion</li>
                     </>
                 );
             case 'MENTOR':
@@ -37,8 +37,8 @@ const Header: React.FC = () => {
                         <li><NavLink to="/chat">Messagerie</NavLink></li>
                         <li><NavLink to="/appointmentTracking">Suivi des porteurs</NavLink></li>
                         <li><NavLink to="/documents">Documents</NavLink></li>
-                        <li><NavLink to="/profil">Profile</NavLink></li>
-                        <li onClick={handleLogout}>Déconnexion</li>
+                        <li><NavLink to="/profil">Profil</NavLink></li>
+                        <li onClick={handleLogout} className="logout">Déconnexion</li>
                     </>
                 );
             case 'FOUNDER':
@@ -47,8 +47,8 @@ const Header: React.FC = () => {
                         <li><NavLink to="/">Accueil</NavLink></li>
                         <li><NavLink to="/chat">Messagerie</NavLink></li>
                         <li><NavLink to="/documents">Documents</NavLink></li>
-                        <li><NavLink to="/profil">Profile</NavLink></li>
-                        <li onClick={handleLogout}>Déconnexion</li>
+                        <li><NavLink to="/profil">Profil</NavLink></li>
+                        <li onClick={handleLogout} className="logout">Déconnexion</li>
                     </>
                 );
             default:

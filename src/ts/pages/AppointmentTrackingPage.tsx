@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import Appointment from "../components/Appointments/Appointments";
-import CreationAppointment from "../components/Appointments/CreationAppointment.tsx";
+import Appointment from "../components/appointments/Appointments";
+import CreationAppointment from "../components/appointments/CreationAppointment.tsx";
 
 const AppointmentTrackingPage: React.FC = () => {
     const { username } = useAuth();

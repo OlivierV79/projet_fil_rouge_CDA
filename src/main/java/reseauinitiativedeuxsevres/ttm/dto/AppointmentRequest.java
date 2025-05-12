@@ -11,5 +11,6 @@ public class AppointmentRequest {
     private LocalTime time;
     private String subject;
     private Long founderId;
+
 }
 

@@ -51,12 +51,15 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/*").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
 
                         // TODO ---- ATTENTION A METTRE EN
-                        //.requestMatchers("/api/appointments/**").authenticated()
+                        //TODO .requestMatchers("/api/appointments/**").authenticated()
                         .requestMatchers("/api/appointments/**").permitAll()
                         .requestMatchers("/api/mentors/**").permitAll()
+                        .requestMatchers("/api/admin/**").permitAll()
+                        .requestMatchers("/api/members/**").permitAll()
+                        .requestMatchers("/api/documents/**").permitAll()
                         .anyRequest().authenticated()
                 );
 

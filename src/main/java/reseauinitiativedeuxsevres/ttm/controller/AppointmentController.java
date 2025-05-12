@@ -42,4 +42,6 @@ public class AppointmentController {
             return ResponseEntity.badRequest().body("Erreur lors de la création du rendez-vous");
         }
     }
+
+
 }
