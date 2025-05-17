@@ -6,6 +6,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 public class AppointmentDTO {
+    private Long id;
     private String date;
     private String heure;
     private String sujet;

@@ -19,9 +19,13 @@ public class Appointment {
     private Long id;
 
     private LocalDate date;
+
     private LocalTime time;
 
     private String subject;
+
+    @Column(columnDefinition = "TEXT")
+    private String summary;
 
     @ManyToOne
     @JoinColumn(name = "mentor_id")

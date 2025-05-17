@@ -6,7 +6,7 @@ import reseauinitiativedeuxsevres.ttm.entity.Member;
 
 import java.util.List;
 
-public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
+public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
     List<Appointment> findByMentorOrFounder(Member mentor, Member founder);
 

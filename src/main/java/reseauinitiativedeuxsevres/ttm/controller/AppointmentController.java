@@ -43,5 +43,40 @@ public class AppointmentController {
         }
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('MENTOR')")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody AppointmentRequest req, Authentication auth) {
+        appointmentService.updateAppointment(id, req, auth.getName());
+        return ResponseEntity.ok("Rendez-vous modifié");
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('MENTOR')")
+    public ResponseEntity<?> cancel(@PathVariable Long id, Authentication auth) {
+        appointmentService.cancelAppointment(id, auth.getName());
+        return ResponseEntity.ok("Rendez-vous annulé");
+    }
+
+    @PostMapping("/{id}/summary")
+    @PreAuthorize("hasRole('MENTOR')")
+    public ResponseEntity<?> addSummary(@PathVariable Long id, @RequestBody String summary, Authentication auth) {
+        appointmentService.addSummary(id, summary, auth.getName());
+        return ResponseEntity.ok("Compte rendu enregistré");
+    }
+
+    @PutMapping("/{id}/summary")
+    @PreAuthorize("hasRole('MENTOR')")
+    public ResponseEntity<Void> updateSummary(@PathVariable Long id, @RequestBody String summary, Authentication auth) {
+        appointmentService.updateSummary(id, summary, auth.getName());
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}/summary")
+    @PreAuthorize("hasAnyRole('MENTOR', 'ADMIN')")
+    public ResponseEntity<String> getSummary(@PathVariable Long id, Authentication auth) {
+        String role = auth.getAuthorities().iterator().next().getAuthority().replace("ROLE_", "");
+        String summary = appointmentService.getSummary(id, auth.getName(), role);
+        return ResponseEntity.ok(summary);
+    }
 
 }

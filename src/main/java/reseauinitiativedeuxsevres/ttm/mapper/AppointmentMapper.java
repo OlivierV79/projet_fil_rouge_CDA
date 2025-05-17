@@ -9,6 +9,7 @@ public class AppointmentMapper {
 
     public AppointmentDTO toDto(Appointment appointment) {
         return new AppointmentDTO(
+                appointment.getId(),
                 appointment.getDate().toString(),
                 appointment.getTime().toString(),
                 appointment.getSubject(),

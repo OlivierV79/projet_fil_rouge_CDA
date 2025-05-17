@@ -1,49 +1,72 @@
-import React, {useEffect, useState} from 'react';
-
-import { AppointmentInterface } from '../../types/AppointmentInterface.ts';
+import React, { useEffect, useState } from 'react';
+import { AppointmentInterface } from '../../types/AppointmentInterface';
 import { useAuth } from '../../contexts/AuthContext';
+import ModifyAppointment from './ModifyAppointment';
+import EditSummaryModal from './EditSummaryModal';
+import ViewSummaryModal from './ViewSummaryModal';
 
 const Appointment: React.FC = () => {
-
-    /*
-    const rendezVous = [
-        { date: '2025-05-02', heure: '10:00', parrain: 'Aldo MACCIONNE', porteur: 'Kevin LOUCHE', sujet: 'Première prise de contact' },
-        { date: '2025-05-03', heure: '14:00', parrain: 'AL PACCINO', porteur: 'Jean SERIEUX', sujet: 'Finalisation de la demande de subvention à la CE dans le cadre du financement écologique solidaire de mes genoux'},
-    ];
-
-     */
-
     const [appointments, setAppointments] = useState<AppointmentInterface[]>([]);
     const { token, role } = useAuth();
 
+    const [selectedAppointment, setSelectedAppointment] = useState<AppointmentInterface | null>(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showEditSummaryModal, setShowEditSummaryModal] = useState(false);
+    const [showViewSummaryModal, setShowViewSummaryModal] = useState(false);
+
+    const fetchAppointments = async () => {
+        try {
+            const url =
+                role === 'ADMIN'
+                    ? 'http://localhost:8080/api/appointments'
+                    : 'http://localhost:8080/api/appointments/mine';
+
+            const res = await fetch(url, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (!res.ok) throw new Error('Erreur lors du chargement des rendez-vous');
+
+            const data = await res.json();
+            setAppointments(data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     useEffect(() => {
-        const fetchAppointments = async () => {
-
-            try {
-                const url =
-                    role === 'ADMIN'
-                        ? 'http://localhost:8080/api/appointments'
-                        : 'http://localhost:8080/api/appointments/mine';
-
-                const res = await fetch(url, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (!res.ok) throw new Error('Erreur lors du chargement des rendez-vous');
-
-                const data = await res.json();
-                setAppointments(data);
-
-
-            } catch (err) {
-                console.error(err);
-            }
-        };
-
         fetchAppointments();
     }, [token]);
+
+    const openEditModal = (appointment: AppointmentInterface) => {
+        setSelectedAppointment(appointment);
+        setShowEditModal(true);
+    };
+
+
+    const openEditSummaryModal = (appointment: AppointmentInterface) => {
+        setSelectedAppointment(appointment);
+        setShowEditSummaryModal(true);
+    };
+
+    const openViewSummaryModal = (appointment: AppointmentInterface) => {
+        setSelectedAppointment(appointment);
+        setShowViewSummaryModal(true);
+    };
+
+    const handleCancel = async (id: number) => {
+        if (window.confirm("Voulez-vous vraiment annuler ce rendez-vous ?")) {
+            await fetch(`http://localhost:8080/api/appointments/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            fetchAppointments();
+        }
+    };
 
     return (
         <>
@@ -60,12 +83,13 @@ const Appointment: React.FC = () => {
                             <th>Parrain</th>
                             <th>Porteur</th>
                             <th>Sujet</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         {appointments.length === 0 ? (
                             <tr>
-                                <td colSpan={5} style={{ textAlign: 'center', padding: '1rem' }}>
+                                <td colSpan={6} style={{ textAlign: 'center', padding: '1rem' }}>
                                     Aucun rendez-vous à afficher.
                                 </td>
                             </tr>
@@ -77,15 +101,63 @@ const Appointment: React.FC = () => {
                                     <td>{rdv.parrain}</td>
                                     <td>{rdv.porteur}</td>
                                     <td className="appointment-subject">{rdv.sujet}</td>
+                                    <td>
+                                        {role === "MENTOR" && (
+                                            <>
+                                                <button onClick={() => openEditModal(rdv)}>Modifier</button>
+                                                <button onClick={() => handleCancel(rdv.id)}>Annuler</button>
+                                                <button onClick={() => openEditSummaryModal(rdv)}>Editer compte rendu</button>
+                                            </>
+                                        )}
+                                        {(role === "ADMIN" || role === "MENTOR") && (
+                                            <button onClick={() => openViewSummaryModal(rdv)}>Voir compte rendu</button>
+                                        )}
+                                    </td>
                                 </tr>
                             ))
                         )}
                         </tbody>
                     </table>
                 </div>
+
+                {showEditModal && selectedAppointment && (
+                    <ModifyAppointment
+                        appointment={selectedAppointment}
+                        onClose={() => setShowEditModal(false)}
+                        onSaved={() => {
+                            setShowEditModal(false);
+                            fetchAppointments();
+                        }}
+                    />
+                )}
+
+
+                {showEditSummaryModal && selectedAppointment && (
+                    <EditSummaryModal
+                        appointmentId={selectedAppointment.id}
+                        token={token!}
+                        onClose={() => {
+                            setShowEditSummaryModal(false);
+                            fetchAppointments();
+                        }}
+                        onSaved={() => {
+                            setShowEditSummaryModal(false);
+                            fetchAppointments();
+                        }}
+                    />
+                )}
+
+                {showViewSummaryModal && selectedAppointment && (
+                    <ViewSummaryModal
+                        appointmentId={selectedAppointment.id}
+                        token={token!}
+                        onClose={() => {
+                            setShowViewSummaryModal(false);
+                        }}
+                    />
+                )}
             </div>
         </>
-
     );
 };
 
