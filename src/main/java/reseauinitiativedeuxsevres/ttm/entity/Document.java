@@ -25,9 +25,27 @@ public class Document {
     @Column(name = "data")
     private byte[] data;
 
+    /*
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Member owner;
 
+     */
+
+    @ManyToOne
+    @JoinColumn(name = "owner_member_id")
+    private Member ownerMember;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_admin_id")
+    private Admin ownerAdmin;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private Member receiverMember;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_admin_id")
+    private Admin receiverAdmin;
 }
 

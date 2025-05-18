@@ -1,5 +1,6 @@
 package reseauinitiativedeuxsevres.ttm.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -7,11 +8,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import reseauinitiativedeuxsevres.ttm.dto.MemberProfileDTO;
+import reseauinitiativedeuxsevres.ttm.dto.SimpleMemberDTO;
 import reseauinitiativedeuxsevres.ttm.dto.UpdateMemberDTO;
 import reseauinitiativedeuxsevres.ttm.service.MemberService;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/members")
 public class MemberController {
@@ -67,4 +70,13 @@ public class MemberController {
     public ResponseEntity<MemberProfileDTO> getProfileByUsername(@PathVariable String username) {
         return ResponseEntity.ok(memberService.getProfileByUsername(username));
     }
+
+    @GetMapping("/eligible")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<SimpleMemberDTO>> getEligibleMembers(Authentication authentication) {
+        String username = authentication.getName();
+        List<SimpleMemberDTO> recipients = memberService.getEligibleReceivers(username);
+        return ResponseEntity.ok(recipients);
+    }
+
 }

@@ -13,8 +13,8 @@ spring:
       ddl-auto: create-drop
   servlet:
     multipart:
-      max-file-size: 5MB
-      max-request-size: 5MB
+      max-file-size: 50MB
+      max-request-size: 50MB
 jwt:
    secret: 7A25432A462D4A614E645267556B58703273357638792F423F4528482B4B6250
    expiration: 86400000

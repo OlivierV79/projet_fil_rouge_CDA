@@ -11,11 +11,13 @@ import reseauinitiativedeuxsevres.ttm.dto.SimpleMemberDTO;
 import reseauinitiativedeuxsevres.ttm.dto.UpdateMemberDTO;
 import reseauinitiativedeuxsevres.ttm.entity.Member;
 import reseauinitiativedeuxsevres.ttm.entity.Role;
+import reseauinitiativedeuxsevres.ttm.repository.AdminRepository;
 import reseauinitiativedeuxsevres.ttm.repository.MemberRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -25,6 +27,9 @@ import java.util.stream.Collectors;
 public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private AdminRepository adminRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -118,17 +123,6 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
-//    private MemberProfileDTO toDtoBasic(Member m) {
-//        return new MemberProfileDTO(
-//                m.getUsername(),
-//                null,
-//                m.getFirstName(),
-//                m.getLastName(),
-//                null,
-//                m.getRole().name(),
-//                null
-//        );
-//    }
 
     private MemberProfileDTO toDtoBasic(Member m) {
         return MemberProfileDTO.builder()
@@ -236,4 +230,90 @@ public class MemberService {
         mentor.getMentorshipRelations().add(founder);
         memberRepository.save(mentor);
     }
+
+    /*
+    public List<SimpleMemberDTO> getEligibleRecipients(String username) {
+        Member sender = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
+
+        Role role = sender.getRole();
+
+        return switch (role) {
+            case ADMIN -> memberRepository.findAll().stream()
+                    .filter(m -> !m.getUsername().equals(username)) // on ne veut pas s’envoyer à soi-même
+                    .map(m -> new SimpleMemberDTO(m.getId(), m.getFirstName() + " " + m.getLastName()))
+                    .toList();
+
+            case MENTOR -> {
+                List<SimpleMemberDTO> recipients = sender.getMentorshipRelations().stream()
+                        .map(f -> new SimpleMemberDTO(f.getId(), f.getFirstName() + " " + f.getLastName()))
+                        .collect(Collectors.toList());
+
+                recipients.addAll(
+                        memberRepository.findAll().stream()
+                                .filter(m -> m.getRole() == Role.ADMIN)
+                                .map(a -> new SimpleMemberDTO(a.getId(), a.getFirstName() + " " + a.getLastName()))
+                                .toList()
+                );
+                yield recipients;
+            }
+
+            case FOUNDER -> {
+                List<SimpleMemberDTO> result = new ArrayList<>();
+
+                memberRepository.findAll().stream()
+                        .filter(m -> m.getRole() == Role.MENTOR && m.getMentorshipRelations().contains(sender))
+                        .findFirst()
+                        .ifPresent(mentor ->
+                                result.add(new SimpleMemberDTO(mentor.getId(), mentor.getFirstName() + " " + mentor.getLastName()))
+                        );
+
+                result.addAll(
+                        memberRepository.findAll().stream()
+                                .filter(m -> m.getRole() == Role.ADMIN)
+                                .map(a -> new SimpleMemberDTO(a.getId(), a.getFirstName() + " " + a.getLastName()))
+                                .toList()
+                );
+                yield result;
+            }
+
+            default -> throw new IllegalStateException("Rôle inconnu");
+        };
+    }
+
+     */
+
+    public List<SimpleMemberDTO> getEligibleReceivers(String username) {
+        Optional<Member> memberOpt = memberRepository.findByUsername(username);
+
+        if (memberOpt.isPresent()) {
+            Member member = memberOpt.get();
+
+            return switch (member.getRole()) {
+                case FOUNDER -> memberRepository.findAll().stream()
+                        .filter(m -> m.getRole() == Role.MENTOR && m.getMentorshipRelations().contains(member))
+                        .map(m -> new SimpleMemberDTO(m.getId(), m.getFirstName() + " " + m.getLastName()))
+                        .toList();
+
+                case MENTOR -> member.getMentorshipRelations().stream()
+                        .map(f -> new SimpleMemberDTO(f.getId(), f.getFirstName() + " " + f.getLastName()))
+                        .toList();
+
+                default -> List.of(); // inutile ici, mais pour être exhaustif
+            };
+        }
+
+        // Si ce n'est pas un Member, on vérifie si c'est un Admin
+        boolean isAdmin = adminRepository.findByUsername(username).isPresent();
+        if (isAdmin) {
+            return memberRepository.findAll().stream()
+                    .map(m -> new SimpleMemberDTO(m.getId(), m.getFirstName() + " " + m.getLastName()))
+                    .toList();
+        }
+
+        throw new EntityNotFoundException("Utilisateur non trouvé dans les membres ni en tant qu'admin");
+    }
+
+
+
 }

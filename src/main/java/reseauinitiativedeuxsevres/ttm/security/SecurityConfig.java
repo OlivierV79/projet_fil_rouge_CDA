@@ -55,11 +55,11 @@ public class SecurityConfig {
 
                         // TODO ---- ATTENTION A METTRE EN
                         //TODO .requestMatchers("/api/appointments/**").authenticated()
-                        .requestMatchers("/api/appointments/**").permitAll()
-                        .requestMatchers("/api/mentors/**").permitAll()
-                        .requestMatchers("/api/admin/**").permitAll()
-                        .requestMatchers("/api/members/**").permitAll()
-                        .requestMatchers("/api/documents/**").permitAll()
+                        .requestMatchers("/api/appointments/**").authenticated()
+                        .requestMatchers("/api/mentors/**").authenticated()
+                        .requestMatchers("/api/admin/**").authenticated()
+                        .requestMatchers("/api/members/**").authenticated()
+                        .requestMatchers("/api/documents/**").authenticated()
                         .anyRequest().authenticated()
                 );
 
