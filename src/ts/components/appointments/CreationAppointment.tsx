@@ -78,7 +78,7 @@ const CreationAppointment: React.FC = () => {
     };
 
     if (role !== 'MENTOR') {
-        return <p>Accès réservé aux mentors.</p>;
+        return <p></p>;
     }
 
     return (

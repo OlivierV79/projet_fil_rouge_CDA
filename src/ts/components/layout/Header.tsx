@@ -26,7 +26,6 @@ const Header: React.FC = () => {
                         <li><NavLink to="/memberManagement">Gestion membres</NavLink></li>
                         <li><NavLink to="/appointmentTracking">Suivi rdv</NavLink></li>
                         <li><NavLink to="/documents">Documents</NavLink></li>
-                        <li><NavLink to="/profil">Profil</NavLink></li>
                         <li onClick={handleLogout} className="logout">Déconnexion</li>
                     </>
                 );
