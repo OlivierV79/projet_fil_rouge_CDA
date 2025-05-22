@@ -1,0 +1,73 @@
+services:
+
+  frontend:
+    image: projet_initiative_asso-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    depends_on:
+      - backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ttm-web.rule=Host(`olivier.nocturlab.fr`)"
+      - "traefik.http.services.ttm-web.loadbalancer.server.port=80"
+    networks:
+      - traefik
+      - app
+    environment:
+      API_URL: https://olivier.nocturlab.fr/api
+
+  backend:
+    image: projet_initiative_asso-backend
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8075:8080"  # optionnel, utile en local
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/trouve_ton_match
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ttm-api.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)"
+      - "traefik.http.services.ttm-api.loadbalancer.server.port=8080"
+    depends_on:
+      - db
+    networks:
+      - db
+      - app
+      - traefik
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: trouve_ton_match
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - db
+
+  traefik:
+    image: traefik:v3.0
+    command:
+      - --entrypoints.web.address=:80
+      - --providers.docker=true
+      - --api.dashboard=true
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - traefik
+
+volumes:
+  postgres-data:
+
+networks:
+  traefik:
+  app:
+  db:
