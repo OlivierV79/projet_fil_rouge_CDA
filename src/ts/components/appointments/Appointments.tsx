@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { AppointmentInterface } from '../../types/AppointmentInterface';
-import { useAuth } from '../../contexts/AuthContext';
+import React, {useEffect, useState} from 'react';
+import {AppointmentInterface} from '../../types/AppointmentInterface';
+import {useAuth} from '../../contexts/AuthContext';
 import ModifyAppointment from './ModifyAppointment';
 import EditSummaryModal from './EditSummaryModal';
 import ViewSummaryModal from './ViewSummaryModal';
 
 const Appointment: React.FC = () => {
     const [appointments, setAppointments] = useState<AppointmentInterface[]>([]);
-    const { token, role } = useAuth();
+    const {token, role} = useAuth();
 
     const [selectedAppointment, setSelectedAppointment] = useState<AppointmentInterface | null>(null);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -39,7 +39,7 @@ const Appointment: React.FC = () => {
 
     useEffect(() => {
         fetchAppointments();
-    }, [token , refresh]);
+    }, [token, refresh]);
 
     const openEditModal = (appointment: AppointmentInterface) => {
         setSelectedAppointment(appointment);
@@ -71,97 +71,130 @@ const Appointment: React.FC = () => {
 
     return (
         <>
-            <div className="card">
-                <div>
-                    <h2>Liste des rendez-vous</h2>
-                </div>
-                <div>
-                    <table>
-                        <thead>
+        <div className="card">
+            <div>
+                <h2>Liste des rendez-vous</h2>
+            </div>
+            <div>
+                <table className="hideInMobile">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Heure</th>
+                        <th>Parrain</th>
+                        <th>Porteur</th>
+                        <th>Sujet</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {appointments.length === 0 ? (
                         <tr>
-                            <th>Date</th>
-                            <th>Heure</th>
-                            <th>Parrain</th>
-                            <th>Porteur</th>
-                            <th>Sujet</th>
-                            <th>Actions</th>
+                            <td colSpan={6} style={{textAlign: 'center', padding: '1rem'}}>
+                                Aucun rendez-vous à afficher.
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        {appointments.length === 0 ? (
-                            <tr>
-                                <td colSpan={6} style={{ textAlign: 'center', padding: '1rem' }}>
-                                    Aucun rendez-vous à afficher.
+                    ) : (
+                        appointments.map((rdv, index) => (
+                            <tr key={index}>
+                                <td>{rdv.date}</td>
+                                <td>{rdv.heure}</td>
+                                <td>{rdv.parrain}</td>
+                                <td>{rdv.porteur}</td>
+                                <td className="appointment-subject">{rdv.sujet}</td>
+                                <td>
+                                    {role === "MENTOR" && (
+                                        <>
+                                            <button onClick={() => openEditModal(rdv)}>Modifier</button>
+                                            <button onClick={() => handleCancel(rdv.id)}>Annuler</button>
+                                            <button onClick={() => openEditSummaryModal(rdv)}>Editer compte rendu
+                                            </button>
+                                        </>
+                                    )}
+                                    {(role === "ADMIN" || role === "MENTOR") && (
+                                        <button onClick={() => openViewSummaryModal(rdv)}>Voir compte rendu</button>
+                                    )}
                                 </td>
                             </tr>
-                        ) : (
-                            appointments.map((rdv, index) => (
-                                <tr key={index}>
-                                    <td>{rdv.date}</td>
-                                    <td>{rdv.heure}</td>
-                                    <td>{rdv.parrain}</td>
-                                    <td>{rdv.porteur}</td>
-                                    <td className="appointment-subject">{rdv.sujet}</td>
-                                    <td>
-                                        {role === "MENTOR" && (
-                                            <>
-                                                <button onClick={() => openEditModal(rdv)}>Modifier</button>
-                                                <button onClick={() => handleCancel(rdv.id)}>Annuler</button>
-                                                <button onClick={() => openEditSummaryModal(rdv)}>Editer compte rendu</button>
-                                            </>
-                                        )}
-                                        {(role === "ADMIN" || role === "MENTOR") && (
-                                            <button onClick={() => openViewSummaryModal(rdv)}>Voir compte rendu</button>
-                                        )}
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                        </tbody>
-                    </table>
+                        ))
+                    )}
+                    </tbody>
+                </table>
+
+                <div className={"showInMobile"}>
+                    {appointments.length === 0 ? (
+
+                            <td colSpan={6} style={{textAlign: 'center', padding: '1rem'}}>
+                                Aucun rendez-vous à afficher.
+                            </td>
+
+                    ) : (
+                        appointments.map((rdv) => (
+                            <>
+                                <p>Le {rdv.date} à {rdv.heure}</p>
+                                <p>Entre {rdv.parrain} et {rdv.porteur}</p>
+                                <p>Sujet du rdv {rdv.sujet}</p>
+                                {role === "MENTOR" && (
+                                    <>
+                                        <button onClick={() => openEditModal(rdv)}>Modifier</button>
+                                        <button onClick={() => handleCancel(rdv.id)}>Annuler</button>
+                                        <button onClick={() => openEditSummaryModal(rdv)}>Editer compte rendu</button>
+                                    </>
+                                )}
+                                {(role === "ADMIN" || role === "MENTOR") && (
+                                    <button onClick={() => openViewSummaryModal(rdv)}>Voir compte rendu</button>
+                                )}
+                                <hr />
+                            </>
+                                )))}
                 </div>
-
-                {showEditModal && selectedAppointment && (
-                    <ModifyAppointment
-                        appointment={selectedAppointment}
-                        onClose={() => setShowEditModal(false)}
-                        onSaved={() => {
-                            setShowEditModal(false);
-                            fetchAppointments();
-                        }}
-                    />
-                )}
-
-
-                {showEditSummaryModal && selectedAppointment && (
-                    <EditSummaryModal
-                        appointmentId={selectedAppointment.id}
-                        token={token!}
-                        onClose={() => {
-                            setShowEditSummaryModal(false);
-                            fetchAppointments();
-                        }}
-                        onSaved={() => {
-                            setShowEditSummaryModal(false);
-                            fetchAppointments();
-                        }}
-                    />
-                )}
-
-                {showViewSummaryModal && selectedAppointment && (
-                    <ViewSummaryModal
-                        appointmentId={selectedAppointment.id}
-                        token={token!}
-                        onClose={() => {
-                            setShowViewSummaryModal(false);
-                        }}
-                    />
-                )}
-                <button onClick={() => setRefresh(prev => prev+1)}>Actualiser</button>
             </div>
 
-        </>
-    );
+
+
+
+        {showEditModal && selectedAppointment && (
+            <ModifyAppointment
+                appointment={selectedAppointment}
+                onClose={() => setShowEditModal(false)}
+                onSaved={() => {
+                    setShowEditModal(false);
+                    fetchAppointments();
+                }}
+            />
+        )}
+
+
+        {showEditSummaryModal && selectedAppointment && (
+            <EditSummaryModal
+                appointmentId={selectedAppointment.id}
+                token={token!}
+                onClose={() => {
+                    setShowEditSummaryModal(false);
+                    fetchAppointments();
+                }}
+                onSaved={() => {
+                    setShowEditSummaryModal(false);
+                    fetchAppointments();
+                }}
+            />
+        )}
+
+        {showViewSummaryModal && selectedAppointment && (
+            <ViewSummaryModal
+                appointmentId={selectedAppointment.id}
+                token={token!}
+                onClose={() => {
+                    setShowViewSummaryModal(false);
+                }}
+            />
+        )}
+        <button onClick={() => setRefresh(prev => prev + 1)}>Actualiser</button>
+        </div>
+
+</>
+)
+    ;
 };
 
 export default Appointment;

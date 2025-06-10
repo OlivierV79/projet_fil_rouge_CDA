@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import logoTTM from '../../assets/logos/logo_ttm.png';
 import '../../style/Header.css';
 import { useAuth } from '../../contexts/AuthContext';
@@ -9,10 +9,17 @@ const Header: React.FC = () => {
     const { role, logout } = useAuth();
     const navigate = useNavigate();
 
-
     const handleLogout = () => {
         logout();
         navigate('/login'); // ou la route que tu souhaites
+    };
+
+
+    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+
+    const toggleMobileMenu = () => {
+        setMobileMenuOpen(!isMobileMenuOpen);
     };
 
     const renderMenuItems = () => {
@@ -61,11 +68,16 @@ const Header: React.FC = () => {
             <div className="logo">
                 <img src={logoTTM} alt="Logo Initiative Deux-Sèvre"/>
             </div>
-            <nav>
-                <ul>
+
+            <div className="mobile-menu-icon" onClick={toggleMobileMenu}>
+                ☰
+            </div>
+            <nav className={isMobileMenuOpen ? "open" : ""}>
+                <ul onClick={() => setMobileMenuOpen(false)}>
                     {renderMenuItems()}
                 </ul>
             </nav>
+
         </header>
     );
 };

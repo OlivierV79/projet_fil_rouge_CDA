@@ -68,3 +68,20 @@ footer{
     font-size: 0.8rem;
 
 }
+
+@media (max-width: 768px) {
+ .footer-content{
+     display:  flex;
+     flex-direction: column;
+
+ }
+
+    .footer-top{
+        flex-direction:  column;
+    }
+
+    .social-icons {
+        flex-direction:  column;
+    }
+
+}

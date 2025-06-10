@@ -36,15 +36,15 @@ const AllMembers: React.FC = () => {
             <table>
                 <thead>
                 <tr>
-                    <th>Username</th>
+                    <th className={"hideInMobile"}>Username</th>
                     <th>Prénom</th>
                     <th>Nom</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    {title === "Parrains" && <th>Nombre de porteurs actuel</th>}
-                    {title === "Parrains" && <th>Nombre de porteurs max</th>}
-                    {title === "Parrains" && <th>Disponible</th>}
-                    {title === "Porteurs" && <th>Assigné à un mentor</th>}
+                    <th className={"hideInMobile"}>Email</th>
+                    <th className={"hideInMobile"}>Role</th>
+                    {title === "Parrains" && <th className={"hideInMobile"}>Nombre de porteurs actuel</th>}
+                    {title === "Parrains" && <th className={"hideInMobile"}>Nombre de porteurs max</th>}
+                    {title === "Parrains" && <th className={"hideInMobile"}>Disponible</th>}
+                    {title === "Porteurs" && <th className={"hideInMobile"}>Assigné à un mentor</th>}
                     <th>Actions</th>
 
                 </tr>
@@ -52,15 +52,15 @@ const AllMembers: React.FC = () => {
                 <tbody>
                 {data.map(member => (
                     <tr key={member.username}>
-                        <td>{member.username}</td>
+                        <td className={"hideInMobile"}>{member.username}</td>
                         <td>{member.firstName}</td>
                         <td>{member.lastName}</td>
-                        <td>{member.email}</td>
-                        <td>{member.role === "MENTOR" ? "Parrain" : "Porteur de projet"}</td>
-                        {title === "Parrains" && <td>{member.assignedFoundersCount}</td>}
-                        {title === "Parrains" && <td>{member.nbrOfFounders}</td>}
-                        {title === "Parrains" && <td>{member.available ? "Oui" : "Non"}</td>}
-                        {title === "Porteurs" && <td>{member.hasMentor ? "Oui" : "Non"}</td>}
+                        <td className={"hideInMobile"}>{member.email}</td>
+                        <td className={"hideInMobile"}>{member.role === "MENTOR" ? "Parrain" : "Porteur de projet"}</td>
+                        {title === "Parrains" && <td className={"hideInMobile"}>{member.assignedFoundersCount}</td>}
+                        {title === "Parrains" && <td className={"hideInMobile"}>{member.nbrOfFounders}</td>}
+                        {title === "Parrains" && <td className={"hideInMobile"}>{member.available ? "Oui" : "Non"}</td>}
+                        {title === "Porteurs" && <td className={"hideInMobile"}>{member.hasMentor ? "Oui" : "Non"}</td>}
                         <td>
                             <button onClick={() => {
                                 setSelectedUsername(member.username);
@@ -87,8 +87,9 @@ const AllMembers: React.FC = () => {
             {showModal && selectedUsername && (
                 <div className="modal-overlay">
                     <div className="modal-content">
-                        <button onClick={() => setShowModal(false)}>Fermer</button>
+
                         <ShowMember username={selectedUsername} />
+                        <button className={"bouton-fermer-modal"} onClick={() => setShowModal(false)}>Fermer</button>
                     </div>
                 </div>
             )}

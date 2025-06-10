@@ -40,3 +40,44 @@ nav li {
 .logout{
     cursor:  pointer;
 }
+
+.mobile-menu-icon {
+    display: none;
+    font-size: 30px;
+    margin-right: 20px;
+    cursor: pointer;
+    color: #7BCD35;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-icon {
+        display: block;
+    }
+
+    nav {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: white;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        border-top: 1px solid #7BCD35;
+        z-index: 1000;
+    }
+
+    nav.open {
+        display: flex;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px 0;
+    }
+
+    nav li {
+        color: #e51968;
+    }
+}

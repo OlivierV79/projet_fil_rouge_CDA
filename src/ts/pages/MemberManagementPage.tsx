@@ -9,7 +9,7 @@ const MemberManagementPage: React.FC = () => {
     return (
         <>
             <div>
-                <h1>Gestion des Membres</h1>
+                <h1>Gestion des membres</h1>
             </div>
             <button onClick={() => navigate("/create-member")}>
                 Créer un parrain ou un porteur de projet

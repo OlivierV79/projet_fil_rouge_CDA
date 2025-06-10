@@ -73,7 +73,7 @@ const ReceivedDocuments: React.FC = () => {
     return (
         <div className="card">
             <h2>Documents reçus</h2>
-            <table>
+            <table className="hideInMobile">
                 <thead>
                 <tr>
                     <th>Nom du fichier</th>
@@ -102,6 +102,34 @@ const ReceivedDocuments: React.FC = () => {
                 )}
                 </tbody>
             </table>
+            <div className={"showInMobile"}>
+
+
+                {documents.length === 0 ? (
+
+                        <td colSpan={4}>Aucun document</td>
+
+                ) : (
+                    documents.map((doc) => (
+                        <>
+                            <p>Nom du fichier : {doc.name}</p>
+                            <p>Type de document : {doc.type}</p>
+                            <p>Envoyé par :{renderSender(doc)}</p>
+                            <td>
+                                <button onClick={() => download(doc.id, doc.name)}>Télécharger</button>
+                                <button onClick={() => deleteDocument(doc.id)}>Supprimer</button>
+                            </td>
+                            <hr />
+                        </>
+                    ))
+                )}
+
+
+
+
+
+
+            </div>
         </div>
     );
 };
