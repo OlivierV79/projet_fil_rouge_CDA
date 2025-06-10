@@ -131,9 +131,9 @@ const Appointment: React.FC = () => {
                     ) : (
                         appointments.map((rdv) => (
                             <>
-                                <p>Le {rdv.date} à {rdv.heure}</p>
-                                <p>Entre {rdv.parrain} et {rdv.porteur}</p>
-                                <p>Sujet du rdv {rdv.sujet}</p>
+                                <p>{rdv.date} - {rdv.heure}</p>
+                                <p>{rdv.parrain} - {rdv.porteur}</p>
+                                <p>Sujet : {rdv.sujet}</p>
                                 {role === "MENTOR" && (
                                     <>
                                         <button onClick={() => openEditModal(rdv)}>Modifier</button>

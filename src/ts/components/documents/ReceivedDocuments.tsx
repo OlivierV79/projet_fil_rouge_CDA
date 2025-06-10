@@ -107,7 +107,7 @@ const ReceivedDocuments: React.FC = () => {
 
                 {documents.length === 0 ? (
 
-                        <td colSpan={4}>Aucun document</td>
+                        <p>Aucun document</p>
 
                 ) : (
                     documents.map((doc) => (
