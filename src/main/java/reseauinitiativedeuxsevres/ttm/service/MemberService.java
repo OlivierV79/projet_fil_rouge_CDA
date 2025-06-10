@@ -48,6 +48,17 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
+    public List<String> getAssignedFoundersUsername(String mentorUsername) {
+        Member mentor = memberRepository.findByUsername(mentorUsername)
+                .orElseThrow(() -> new EntityNotFoundException("Mentor not found"));
+
+        return mentor.getMentorshipRelations()
+                .stream()
+                //.map(f -> new SimpleMemberDTO(f.getId(), f.getFirstName() + " " + f.getLastName()))
+                .map(f -> (f.getUsername()))
+                .collect(Collectors.toList());
+    }
+
     public MemberProfileDTO getCurrentMemberProfile(String username) {
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
@@ -299,7 +310,7 @@ public class MemberService {
                         .map(f -> new SimpleMemberDTO(f.getId(), f.getFirstName() + " " + f.getLastName()))
                         .toList();
 
-                default -> List.of(); // inutile ici, mais pour être exhaustif
+                default -> List.of();
             };
         }
 

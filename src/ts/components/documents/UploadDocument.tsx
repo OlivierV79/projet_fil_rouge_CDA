@@ -8,7 +8,7 @@ interface ReceiverOption {
 const UploadDocument: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [receiverId, setReceiverId] = useState<number | null>(null);
-    const [type, setType] = useState("adminDocument");
+    const [type, setType] = useState("Informations");
     const [receivers, setReceivers] = useState<ReceiverOption[]>([]);
 
     const token = localStorage.getItem("token");
@@ -67,9 +67,10 @@ const UploadDocument: React.FC = () => {
                 <div>
                     <label>Type de document :</label>
                     <select value={type} onChange={(e) => setType(e.target.value)}>
-                        <option value="adminDocument">Document administratif</option>
-                        <option value="justificatif">Justificatif</option>
-                        <option value="cv">CV</option>
+                        <option value="Informations">Informations</option>
+                        <option value="Justificatif">Justificatif</option>
+                        <option value="Contrat">Contrat</option>
+                        <option value="Autre">Autre</option>
                     </select>
                 </div>
 

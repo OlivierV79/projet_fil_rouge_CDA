@@ -13,10 +13,20 @@ const ViewSummaryModal: React.FC<Props> = ({ appointmentId, onClose, token }) =>
         fetch(`http://localhost:8080/api/appointments/${appointmentId}/summary`, {
             headers: { Authorization: `Bearer ${token}` }
         })
-            .then(res => res.ok ? res.text() : "Pas de compte rendu disponible.")
-            .then(text => setSummary(text))
-            .catch(() => setSummary("Erreur de chargement."));
+            .then(res => {
+                if (!res.ok) throw new Error();
+                return res.text();
+            })
+            .then(text => {
+                if (!text || text.trim() === "") {
+                    setSummary("Pas de compte rendu disponible.");
+                } else {
+                    setSummary(text);
+                }
+            })
+            .catch(() => setSummary("Pas de compte rendu disponible."));
     }, [appointmentId, token]);
+
 
     return (
         <div className="modal-overlay">

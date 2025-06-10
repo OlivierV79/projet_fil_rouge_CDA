@@ -4,7 +4,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -49,8 +48,6 @@ public class DocumentController {
         }
     }
 
-
-
     @PostMapping("/send")
     public ResponseEntity<?> sendDocument(
             @RequestParam("file") MultipartFile file,
@@ -69,16 +66,6 @@ public class DocumentController {
 
 
 
-    /*
-    @GetMapping("/received")
-    public ResponseEntity<List<Document>> getReceivedDocs() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<Document> docs = documentService.getReceivedDocuments(username);
-        return ResponseEntity.ok(docs);
-    }
-
-     */
-
     @GetMapping("/received")
     public ResponseEntity<List<Document>> getReceivedDocuments(Authentication auth) {
         String username = auth.getName();
@@ -86,27 +73,7 @@ public class DocumentController {
         return ResponseEntity.ok(docs);
     }
 
-    /*
-    @GetMapping("/download/{id}")
-    public ResponseEntity<?> downloadById(@PathVariable Long id, Authentication auth) {
-        Document doc = documentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Document non trouvé"));
 
-        String currentUser = auth.getName();
-        boolean isOwnerOrReceiver = doc.getOwner().getUsername().equals(currentUser)
-                || doc.getReceiver().getUsername().equals(currentUser);
-
-        if (!isOwnerOrReceiver) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Accès refusé.");
-        }
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(doc.getMimeType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + doc.getName() + "\"")
-                .body(new ByteArrayResource(doc.getData()));
-    }
-
-     */
 
     @GetMapping("/download/{id}")
     public ResponseEntity<?> downloadById(@PathVariable Long id, Authentication auth) {
@@ -133,7 +100,19 @@ public class DocumentController {
                 .body(new ByteArrayResource(doc.getData()));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteDocument(@PathVariable Long id, Authentication auth) {
+        String username = auth.getName();
 
+        try {
+            documentService.deleteDocument(id, username);
+            return ResponseEntity.ok("Document supprimé.");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Document non trouvé.");
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Vous n'avez pas les droits pour supprimer ce document.");
+        }
+    }
 
 }
 

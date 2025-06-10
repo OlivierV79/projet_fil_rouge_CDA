@@ -1,15 +1,21 @@
 import React from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import CreationMember from "../components/member/CreationMember.tsx";
+import AllMembers from "../components/member/AllMembers.tsx";
+import { useNavigate } from "react-router-dom";
+
 
 const MemberManagementPage: React.FC = () => {
-    const { username } = useAuth();
+    const navigate = useNavigate();
+
     return (
         <>
             <div>
-                <h1>Gestion des Membres {username} !</h1>
+                <h1>Gestion des Membres</h1>
             </div>
-            <CreationMember />
+            <button onClick={() => navigate("/create-member")}>
+                Créer un parrain ou un porteur de projet
+            </button>
+
+            <AllMembers />
         </>
 
     );

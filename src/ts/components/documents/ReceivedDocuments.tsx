@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 
+
+
+
+
 interface DocumentItem {
     id: number;
     name: string;
@@ -36,6 +40,26 @@ const ReceivedDocuments: React.FC = () => {
             });
     };
 
+    const deleteDocument = async (id: number) => {
+        const confirmDelete = window.confirm("Voulez-vous vraiment supprimer ce document ?");
+        if (!confirmDelete) return;
+
+        try {
+            const res = await fetch(`http://localhost:8080/api/documents/${id}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (!res.ok) throw new Error("Erreur lors de la suppression");
+
+            // Supprime le document de l'état local
+            setDocuments(prev => prev.filter(doc => doc.id !== id));
+        } catch (err) {
+            console.error(err);
+            alert("Erreur lors de la suppression du document.");
+        }
+    };
+
     const renderSender = (doc: DocumentItem) => {
         if (doc.ownerMember) {
             return `${doc.ownerMember.firstName} ${doc.ownerMember.lastName}`;
@@ -49,20 +73,38 @@ const ReceivedDocuments: React.FC = () => {
     return (
         <div className="card">
             <h2>Documents reçus</h2>
-            {documents.length === 0 ? (
-                <p>Aucun document reçu.</p>
-            ) : (
-                <ul>
-                    {documents.map(doc => (
-                        <li key={doc.id}>
-                            {doc.name} — envoyé par {renderSender(doc)}{" "}
-                            <button onClick={() => download(doc.id, doc.name)}>Télécharger</button>
-                        </li>
-                    ))}
-                </ul>
-            )}
+            <table>
+                <thead>
+                <tr>
+                    <th>Nom du fichier</th>
+                    <th>Type de document</th>
+                    <th>Envoyé par</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {documents.length === 0 ? (
+                    <tr>
+                        <td colSpan={4}>Aucun document</td>
+                    </tr>
+                ) : (
+                    documents.map((doc, index) => (
+                        <tr key={index}>
+                            <td>{doc.name}</td>
+                            <td>{doc.type}</td>
+                            <td>{renderSender(doc)}</td>
+                            <td>
+                                <button onClick={() => download(doc.id, doc.name)}>Télécharger</button>
+                                <button onClick={() => deleteDocument(doc.id)}>Supprimer</button>
+                            </td>
+                        </tr>
+                    ))
+                )}
+                </tbody>
+            </table>
         </div>
     );
 };
 
 export default ReceivedDocuments;
+

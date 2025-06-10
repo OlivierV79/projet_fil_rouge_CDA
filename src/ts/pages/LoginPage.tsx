@@ -1,7 +1,6 @@
 // src/pages/LoginPage.tsx
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import axios from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
@@ -12,9 +11,22 @@ function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         try {
-            const response = await axios.post('/auth/login', { username, password });
-            const token = response.data.token;
+            const response = await fetch('http://localhost:8080/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (!response.ok) {
+                throw new Error('Échec de la connexion');
+            }
+
+            const data = await response.json();
+            const token = data.token;
             login(token);
             navigate('/');
         } catch (error) {
@@ -22,6 +34,7 @@ function LoginPage() {
             alert('Erreur de connexion');
         }
     };
+
 
     return (
         <>

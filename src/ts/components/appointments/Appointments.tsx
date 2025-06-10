@@ -13,6 +13,7 @@ const Appointment: React.FC = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [showEditSummaryModal, setShowEditSummaryModal] = useState(false);
     const [showViewSummaryModal, setShowViewSummaryModal] = useState(false);
+    const [refresh, setRefresh] = useState(0);
 
     const fetchAppointments = async () => {
         try {
@@ -38,7 +39,7 @@ const Appointment: React.FC = () => {
 
     useEffect(() => {
         fetchAppointments();
-    }, [token]);
+    }, [token , refresh]);
 
     const openEditModal = (appointment: AppointmentInterface) => {
         setSelectedAppointment(appointment);
@@ -72,7 +73,7 @@ const Appointment: React.FC = () => {
         <>
             <div className="card">
                 <div>
-                    <h2>Rendez-vous de suivi</h2>
+                    <h2>Liste des rendez-vous</h2>
                 </div>
                 <div>
                     <table>
@@ -156,7 +157,9 @@ const Appointment: React.FC = () => {
                         }}
                     />
                 )}
+                <button onClick={() => setRefresh(prev => prev+1)}>Actualiser</button>
             </div>
+
         </>
     );
 };

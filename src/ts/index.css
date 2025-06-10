@@ -60,6 +60,7 @@ main {
   border-radius: 5px;
   padding: 30px;
   margin: 30px;
+  /*width: 100%;*/
 }
 
 .card-creation-compte{
@@ -252,4 +253,14 @@ tbody tr:nth-of-type(even) {
   padding: 20px;
   max-width: 500px;
   border-radius: 8px;
+}
+
+.show-all-members{
+display: flex;
+flex-direction: column;
+}
+
+.bouton-choix-mentor{
+  position: relative;
+  top: -60px;
 }

@@ -21,7 +21,6 @@ const Header: React.FC = () => {
                 return (
                     <>
                         <li><NavLink to="/">Accueil</NavLink></li>
-                        <li><NavLink to="/chat">Messagerie</NavLink></li>
                         <li><NavLink to="/statistics">Statistiques</NavLink></li>
                         <li><NavLink to="/memberManagement">Gestion membres</NavLink></li>
                         <li><NavLink to="/appointmentTracking">Suivi rdv</NavLink></li>
@@ -33,7 +32,6 @@ const Header: React.FC = () => {
                 return (
                     <>
                         <li><NavLink to="/">Accueil</NavLink></li>
-                        <li><NavLink to="/chat">Messagerie</NavLink></li>
                         <li><NavLink to="/appointmentTracking">Suivi des porteurs</NavLink></li>
                         <li><NavLink to="/documents">Documents</NavLink></li>
                         <li><NavLink to="/profil">Profil</NavLink></li>
@@ -44,7 +42,6 @@ const Header: React.FC = () => {
                 return (
                     <>
                         <li><NavLink to="/">Accueil</NavLink></li>
-                        <li><NavLink to="/chat">Messagerie</NavLink></li>
                         <li><NavLink to="/documents">Documents</NavLink></li>
                         <li><NavLink to="/profil">Profil</NavLink></li>
                         <li onClick={handleLogout} className="logout">Déconnexion</li>

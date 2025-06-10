@@ -3,6 +3,8 @@ import { MemberProfileDTO } from '../../types/MemberProfileDTO';
 import { useAuth } from '../../contexts/AuthContext';
 import ShowMember from "./ShowMember.tsx";
 
+
+
 const AllMembers: React.FC = () => {
     const { token } = useAuth();
     const [mentors, setMentors] = useState<MemberProfileDTO[]>([]);
@@ -10,6 +12,7 @@ const AllMembers: React.FC = () => {
 
     const [selectedUsername, setSelectedUsername] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
+
 
     useEffect(() => {
         fetch("http://localhost:8080/api/members/all", {
@@ -28,7 +31,7 @@ const AllMembers: React.FC = () => {
     }, [token]);
 
     const renderTable = (title: string, data: MemberProfileDTO[]) => (
-        <>
+        <div className="show-all-members">
             <h2>{title}</h2>
             <table>
                 <thead>
@@ -38,10 +41,11 @@ const AllMembers: React.FC = () => {
                     <th>Nom</th>
                     <th>Email</th>
                     <th>Role</th>
-                    {title === "Parrain" && <th>Nombre de porteurs actuel</th>}
-                    {title === "Parrain" && <th>Nombre de porteurs max</th>}
-                    {title === "Parrain" && <th>Disponible</th>}
-                    {title === "Porteur" && <th>Assigné à un mentor</th>}
+                    {title === "Parrains" && <th>Nombre de porteurs actuel</th>}
+                    {title === "Parrains" && <th>Nombre de porteurs max</th>}
+                    {title === "Parrains" && <th>Disponible</th>}
+                    {title === "Porteurs" && <th>Assigné à un mentor</th>}
+                    <th>Actions</th>
 
                 </tr>
                 </thead>
@@ -52,11 +56,11 @@ const AllMembers: React.FC = () => {
                         <td>{member.firstName}</td>
                         <td>{member.lastName}</td>
                         <td>{member.email}</td>
-                        <td>{member.role}</td>
-                        {title === "Parrain" && <td>{member.assignedFoundersCount}</td>}
-                        {title === "Parrain" && <td>{member.nbrOfFounders}</td>}
-                        {title === "Parrain" && <td>{member.available ? "Oui" : "Non"}</td>}
-                        {title === "Porteur" && <td>{member.hasMentor ? "Oui" : "Non"}</td>}
+                        <td>{member.role === "MENTOR" ? "Parrain" : "Porteur de projet"}</td>
+                        {title === "Parrains" && <td>{member.assignedFoundersCount}</td>}
+                        {title === "Parrains" && <td>{member.nbrOfFounders}</td>}
+                        {title === "Parrains" && <td>{member.available ? "Oui" : "Non"}</td>}
+                        {title === "Porteurs" && <td>{member.hasMentor ? "Oui" : "Non"}</td>}
                         <td>
                             <button onClick={() => {
                                 setSelectedUsername(member.username);
@@ -70,15 +74,15 @@ const AllMembers: React.FC = () => {
                 ))}
                 </tbody>
             </table>
-        </>
+        </div>
     );
 
     return (
         <>
             <div className="card">
-                {renderTable("Parrain", mentors)}
+                {renderTable("Parrains", mentors)}
                 <hr />
-                {renderTable("Porteur", founders)}
+                {renderTable("Porteurs", founders)}
             </div>
             {showModal && selectedUsername && (
                 <div className="modal-overlay">
@@ -89,8 +93,6 @@ const AllMembers: React.FC = () => {
                 </div>
             )}
         </>
-
-
     );
 };
 

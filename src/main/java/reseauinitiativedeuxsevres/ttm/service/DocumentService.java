@@ -230,6 +230,26 @@ public class DocumentService {
         documentRepository.save(doc);
     }
 
+    @Transactional
+    public void deleteDocument(Long documentId, String username) {
+        Document doc = documentRepository.findById(documentId)
+                .orElseThrow(() -> new EntityNotFoundException("Document non trouvé"));
+
+        boolean isOwner =
+                (doc.getOwnerMember() != null && doc.getOwnerMember().getUsername().equals(username)) ||
+                        (doc.getOwnerAdmin() != null && doc.getOwnerAdmin().getUsername().equals(username));
+
+        boolean isReceiver =
+                (doc.getReceiverMember() != null && doc.getReceiverMember().getUsername().equals(username)) ||
+                        (doc.getReceiverAdmin() != null && doc.getReceiverAdmin().getUsername().equals(username));
+
+        if (!isOwner && !isReceiver) {
+            throw new SecurityException("Accès refusé");
+        }
+
+        documentRepository.delete(doc);
+    }
+
 
 
 }
