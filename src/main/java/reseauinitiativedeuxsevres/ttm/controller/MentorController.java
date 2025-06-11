@@ -28,6 +28,14 @@ public class MentorController {
         return ResponseEntity.ok(founders);
     }
 
+    @GetMapping("/founders-username")
+    @PreAuthorize("hasRole('MENTOR')")
+    public ResponseEntity<List<String>> getAssignedFoundersUsername(Authentication authentication) {
+        String username = authentication.getName();
+        List<String> founders = memberService.getAssignedFoundersUsername(username);
+        return ResponseEntity.ok(founders);
+    }
+
     @GetMapping("/assigned")
     @PreAuthorize("hasRole('FOUNDER')")
     public ResponseEntity<?> getAssignedMentor(Authentication authentication) {

@@ -3,9 +3,9 @@
 
 ## Jeux de données
 - admin / admin
-- mentor1 / mentor
+- mentor / mentor
 - mentor2 / mentor
-- founder 1 / founder
+- founder / founder
 - founder 2 / founder
 - founder 3 / founder
 - founder 4 / founder

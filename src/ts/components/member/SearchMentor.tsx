@@ -68,7 +68,7 @@ const SearchMentor: React.FC = () => {
                     {allMentors.map(m => (
                         <div key={m.username}>
                             <ShowMember username={m.username} />
-                            <button onClick={() => handleAssign(m.username)}>Choisir ce mentor</button>
+                            <button className={"bouton-choix-mentor"} onClick={() => handleAssign(m.username)}>Choisir ce mentor</button>
                         </div>
                     ))}
                 </>
