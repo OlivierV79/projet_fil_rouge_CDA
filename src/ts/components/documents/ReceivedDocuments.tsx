@@ -64,7 +64,7 @@ const ReceivedDocuments: React.FC = () => {
         if (doc.ownerMember) {
             return `${doc.ownerMember.firstName} ${doc.ownerMember.lastName}`;
         } else if (doc.ownerAdmin) {
-            return `Administrateur (${doc.ownerAdmin.username})`;
+            return `Administrateur`;
         } else {
             return "Inconnu";
         }
@@ -114,11 +114,11 @@ const ReceivedDocuments: React.FC = () => {
                         <>
                             <p>Nom du fichier : {doc.name}</p>
                             <p>Type de document : {doc.type}</p>
-                            <p>Envoyé par :{renderSender(doc)}</p>
-                            <td>
+                            <p>Envoyé par : {renderSender(doc)}</p>
+                            <div>
                                 <button onClick={() => download(doc.id, doc.name)}>Télécharger</button>
                                 <button onClick={() => deleteDocument(doc.id)}>Supprimer</button>
-                            </td>
+                            </div>
                             <hr />
                         </>
                     ))
