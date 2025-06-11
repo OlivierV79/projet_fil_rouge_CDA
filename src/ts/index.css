@@ -301,4 +301,8 @@ flex-direction: column;
   form{
     margin: 10px;
   }
+
+  header nav {
+     margin-right: 0;
+  }
 }
