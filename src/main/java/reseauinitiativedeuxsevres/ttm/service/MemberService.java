@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import reseauinitiativedeuxsevres.ttm.dto.MemberCreationRequest;
-import reseauinitiativedeuxsevres.ttm.dto.MemberProfileDTO;
-import reseauinitiativedeuxsevres.ttm.dto.SimpleMemberDTO;
-import reseauinitiativedeuxsevres.ttm.dto.UpdateMemberDTO;
+import reseauinitiativedeuxsevres.ttm.dto.*;
 import reseauinitiativedeuxsevres.ttm.entity.Member;
 import reseauinitiativedeuxsevres.ttm.entity.Role;
 import reseauinitiativedeuxsevres.ttm.repository.AdminRepository;
@@ -16,11 +13,10 @@ import reseauinitiativedeuxsevres.ttm.repository.MemberRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.security.SecureRandom;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -242,57 +238,6 @@ public class MemberService {
         memberRepository.save(mentor);
     }
 
-    /*
-    public List<SimpleMemberDTO> getEligibleRecipients(String username) {
-        Member sender = memberRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
-
-        Role role = sender.getRole();
-
-        return switch (role) {
-            case ADMIN -> memberRepository.findAll().stream()
-                    .filter(m -> !m.getUsername().equals(username)) // on ne veut pas s’envoyer à soi-même
-                    .map(m -> new SimpleMemberDTO(m.getId(), m.getFirstName() + " " + m.getLastName()))
-                    .toList();
-
-            case MENTOR -> {
-                List<SimpleMemberDTO> recipients = sender.getMentorshipRelations().stream()
-                        .map(f -> new SimpleMemberDTO(f.getId(), f.getFirstName() + " " + f.getLastName()))
-                        .collect(Collectors.toList());
-
-                recipients.addAll(
-                        memberRepository.findAll().stream()
-                                .filter(m -> m.getRole() == Role.ADMIN)
-                                .map(a -> new SimpleMemberDTO(a.getId(), a.getFirstName() + " " + a.getLastName()))
-                                .toList()
-                );
-                yield recipients;
-            }
-
-            case FOUNDER -> {
-                List<SimpleMemberDTO> result = new ArrayList<>();
-
-                memberRepository.findAll().stream()
-                        .filter(m -> m.getRole() == Role.MENTOR && m.getMentorshipRelations().contains(sender))
-                        .findFirst()
-                        .ifPresent(mentor ->
-                                result.add(new SimpleMemberDTO(mentor.getId(), mentor.getFirstName() + " " + mentor.getLastName()))
-                        );
-
-                result.addAll(
-                        memberRepository.findAll().stream()
-                                .filter(m -> m.getRole() == Role.ADMIN)
-                                .map(a -> new SimpleMemberDTO(a.getId(), a.getFirstName() + " " + a.getLastName()))
-                                .toList()
-                );
-                yield result;
-            }
-
-            default -> throw new IllegalStateException("Rôle inconnu");
-        };
-    }
-
-     */
 
     public List<SimpleMemberDTO> getEligibleReceivers(String username) {
         Optional<Member> memberOpt = memberRepository.findByUsername(username);
@@ -326,5 +271,14 @@ public class MemberService {
     }
 
 
+    public StatMemberDTO getStatisticMember() {
+        long nbMentor = memberRepository.countByRole(Role.MENTOR);
+        long nbMentorAvailable = memberRepository.countByRoleAndAvailableTrue(Role.MENTOR);
 
+        long nbFounder = memberRepository.countByRole(Role.FOUNDER);
+        long nbFounderAssigned = memberRepository.countFoundersWithMentorNative();
+        long nbFounderNotAssigned = nbFounder - nbFounderAssigned;
+
+        return new StatMemberDTO(nbMentor, nbMentorAvailable, nbFounder, nbFounderAssigned, nbFounderNotAssigned);
+    }
 }

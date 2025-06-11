@@ -124,13 +124,13 @@ const Appointment: React.FC = () => {
                 <div className={"showInMobile"}>
                     {appointments.length === 0 ? (
 
-                            <td colSpan={6} style={{textAlign: 'center', padding: '1rem'}}>
+                            <p >
                                 Aucun rendez-vous à afficher.
-                            </td>
+                            </p>
 
                     ) : (
                         appointments.map((rdv) => (
-                            <>
+                            < div key={rdv.id} >
                                 <p>{rdv.date} - {rdv.heure}</p>
                                 <p>{rdv.parrain} - {rdv.porteur}</p>
                                 <p>Sujet : {rdv.sujet}</p>
@@ -145,7 +145,7 @@ const Appointment: React.FC = () => {
                                     <button onClick={() => openViewSummaryModal(rdv)}>Voir compte rendu</button>
                                 )}
                                 <hr />
-                            </>
+                            </div>
                                 )))}
                 </div>
             </div>

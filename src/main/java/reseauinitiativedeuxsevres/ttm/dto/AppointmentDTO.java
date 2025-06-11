@@ -10,6 +10,6 @@ public class AppointmentDTO {
     private String date;
     private String heure;
     private String sujet;
-    private String parrain; // nom du mentor
-    private String porteur; // nom du founder
+    private String parrain;
+    private String porteur;
 }
