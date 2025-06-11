@@ -13,6 +13,7 @@ import FounderPage from "./pages/FounderPage.tsx";
 import MemberManagementPage from "./pages/MemberManagementPage.tsx";
 import MentorPage from "./pages/MentorPage.tsx";
 import StatisticsPage from "./pages/StatisticsPage.tsx";
+import CreateMemberPage from "./pages/CreateMemberPage.tsx";
 
 function App() {
     return (
@@ -80,6 +81,14 @@ function App() {
                     element={
                         <PrivateRoute>
                             <MemberManagementPage/>
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/create-member"
+                    element={
+                        <PrivateRoute>
+                            <CreateMemberPage/>
                         </PrivateRoute>
                     }
                 />

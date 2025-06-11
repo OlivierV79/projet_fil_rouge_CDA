@@ -2,16 +2,19 @@ import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import Appointment from "../components/appointments/Appointments.tsx";
 import SearchMentor from "../components/member/SearchMentor.tsx";
+import ShowMyFounder from "../components/member/ShowMyFounder.tsx";
 
 const HomePage: React.FC = () => {
-    const { username, role } = useAuth();
+    const { role } = useAuth();
     return (
         <>
             <div>
-                <h1>Bienvenue {username} !</h1>
+                <h1>Gestion parrainage porteurs de projet</h1>
             </div>
-            <Appointment />
             {role === "FOUNDER" && <SearchMentor />}
+            {role === "MENTOR" && <ShowMyFounder />}
+            <Appointment />
+
         </>
 
 

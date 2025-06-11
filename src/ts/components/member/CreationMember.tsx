@@ -1,7 +1,12 @@
 import React, { useState } from "react";
-import axios from "axios";
+import {useAuth} from "../../contexts/AuthContext.tsx";
+import {useNavigate} from "react-router-dom";
+
+
 
 const CreationMember: React.FC = () => {
+    const { token } = useAuth();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: "",
         email: "",
@@ -22,23 +27,38 @@ const CreationMember: React.FC = () => {
         }));
     };
 
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Conversion en nombre ou null
         const payload = {
             ...formData,
             nbrOfFounders: formData.role === "MENTOR" ? parseInt(formData.nbrOfFounders) || 0 : null
         };
 
         try {
-            await axios.post("http://localhost:8080/api/admin/create-member", payload); // URL à adapter si besoin
-            setMessage("Membre créé avec succès !");
+            const res = await fetch("http://localhost:8080/api/admin/create-member", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) {
+                throw new Error("Erreur HTTP");
+            }
+
+            //setMessage("Membre créé avec succès !");
+            navigate("/memberManagement")
+
         } catch (error) {
             console.error(error);
             setMessage("Erreur lors de la création du membre.");
         }
     };
+
 
     return (
         <>

@@ -34,7 +34,13 @@ public class AdminService {
 
         // 🔐 Générer un mot de passe aléatoire
         String rawPassword = generateRandomPassword(12);
-        System.out.println("Mot de passe généré pour " + request.getUsername() + " : " + rawPassword);
+        System.out.println(" -----------------------------------------------------------------------------");
+        System.out.println(" -------------------------- Génération mot de pass  --------------------------");
+        System.out.println(" -----------------------------------------------------------------------------");
+        System.out.println(" ------------- Mot de passe généré pour " + request.getUsername() + " : " + rawPassword + "-------------");
+        System.out.println(" -----------------------------------------------------------------------------");
+        System.out.println(" -------------------------- Génération mot de pass  --------------------------");
+        System.out.println(" -----------------------------------------------------------------------------");
         member.setPassword(passwordEncoder.encode(rawPassword));
 
 

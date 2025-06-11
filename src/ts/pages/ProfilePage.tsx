@@ -10,7 +10,7 @@ const ProfilePage: React.FC = () => {
 
     return (
         <div>
-            <h1>Profil {username} !</h1>
+            <h1>Mon profil</h1>
             <ShowMember username={username}/>
             <ModifyMember />
         </div>

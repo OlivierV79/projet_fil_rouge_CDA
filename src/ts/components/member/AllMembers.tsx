@@ -3,6 +3,8 @@ import { MemberProfileDTO } from '../../types/MemberProfileDTO';
 import { useAuth } from '../../contexts/AuthContext';
 import ShowMember from "./ShowMember.tsx";
 
+
+
 const AllMembers: React.FC = () => {
     const { token } = useAuth();
     const [mentors, setMentors] = useState<MemberProfileDTO[]>([]);
@@ -10,6 +12,7 @@ const AllMembers: React.FC = () => {
 
     const [selectedUsername, setSelectedUsername] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
+
 
     useEffect(() => {
         fetch("http://localhost:8080/api/members/all", {
@@ -28,35 +31,36 @@ const AllMembers: React.FC = () => {
     }, [token]);
 
     const renderTable = (title: string, data: MemberProfileDTO[]) => (
-        <>
+        <div className="show-all-members">
             <h2>{title}</h2>
             <table>
                 <thead>
                 <tr>
-                    <th>Username</th>
+                    <th className={"hideInMobile"}>Username</th>
                     <th>Prénom</th>
                     <th>Nom</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    {title === "Parrain" && <th>Nombre de porteurs actuel</th>}
-                    {title === "Parrain" && <th>Nombre de porteurs max</th>}
-                    {title === "Parrain" && <th>Disponible</th>}
-                    {title === "Porteur" && <th>Assigné à un mentor</th>}
+                    <th className={"hideInMobile"}>Email</th>
+                    <th className={"hideInMobile"}>Role</th>
+                    {title === "Parrains" && <th className={"hideInMobile"}>Nombre de porteurs actuel</th>}
+                    {title === "Parrains" && <th className={"hideInMobile"}>Nombre de porteurs max</th>}
+                    {title === "Parrains" && <th className={"hideInMobile"}>Disponible</th>}
+                    {title === "Porteurs" && <th className={"hideInMobile"}>Assigné à un mentor</th>}
+                    <th>Actions</th>
 
                 </tr>
                 </thead>
                 <tbody>
                 {data.map(member => (
                     <tr key={member.username}>
-                        <td>{member.username}</td>
+                        <td className={"hideInMobile"}>{member.username}</td>
                         <td>{member.firstName}</td>
                         <td>{member.lastName}</td>
-                        <td>{member.email}</td>
-                        <td>{member.role}</td>
-                        {title === "Parrain" && <td>{member.assignedFoundersCount}</td>}
-                        {title === "Parrain" && <td>{member.nbrOfFounders}</td>}
-                        {title === "Parrain" && <td>{member.available ? "Oui" : "Non"}</td>}
-                        {title === "Porteur" && <td>{member.hasMentor ? "Oui" : "Non"}</td>}
+                        <td className={"hideInMobile"}>{member.email}</td>
+                        <td className={"hideInMobile"}>{member.role === "MENTOR" ? "Parrain" : "Porteur de projet"}</td>
+                        {title === "Parrains" && <td className={"hideInMobile"}>{member.assignedFoundersCount}</td>}
+                        {title === "Parrains" && <td className={"hideInMobile"}>{member.nbrOfFounders}</td>}
+                        {title === "Parrains" && <td className={"hideInMobile"}>{member.available ? "Oui" : "Non"}</td>}
+                        {title === "Porteurs" && <td className={"hideInMobile"}>{member.hasMentor ? "Oui" : "Non"}</td>}
                         <td>
                             <button onClick={() => {
                                 setSelectedUsername(member.username);
@@ -70,27 +74,26 @@ const AllMembers: React.FC = () => {
                 ))}
                 </tbody>
             </table>
-        </>
+        </div>
     );
 
     return (
         <>
             <div className="card">
-                {renderTable("Parrain", mentors)}
+                {renderTable("Parrains", mentors)}
                 <hr />
-                {renderTable("Porteur", founders)}
+                {renderTable("Porteurs", founders)}
             </div>
             {showModal && selectedUsername && (
                 <div className="modal-overlay">
                     <div className="modal-content">
-                        <button onClick={() => setShowModal(false)}>Fermer</button>
+
                         <ShowMember username={selectedUsername} />
+                        <button className={"bouton-fermer-modal"} onClick={() => setShowModal(false)}>Fermer</button>
                     </div>
                 </div>
             )}
         </>
-
-
     );
 };
 

@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from "react";
-import defaultAvatar from '../../assets/photos/photo_profil_base.jpg';
 
 
 const ModifyMember: React.FC = () => {
     const [profile, setProfile] = useState<any>(null);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
     const [formData, setFormData] = useState({
         firstName: "",
@@ -43,27 +41,6 @@ const ModifyMember: React.FC = () => {
             .catch(err => console.error(err));
     }, []);
 
-
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-
-        fetch("http://localhost:8080/api/documents/download/profilePicture", {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-            .then(res => {
-                if (!res.ok) throw new Error("Pas de photo");
-                return res.blob();
-            })
-            .then(blob => {
-                const imageUrl = URL.createObjectURL(blob);
-                setPhotoUrl(imageUrl);
-            })
-            .catch(() => {
-                setPhotoUrl(defaultAvatar);
-            });
-    }, []);
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,9 +122,10 @@ const ModifyMember: React.FC = () => {
                 <div>
                     <label>Photo de profil</label><br/>
 
-                    {photoUrl && (
-                        <img src={photoUrl} alt="Profil" width="120" style={{marginBottom: "10px"}}/>
-                    )}
+                    {//photoUrl && (
+                     //   <img src={photoUrl} alt="Profil" width="120" style={{marginBottom: "10px"}}/>
+                    //)
+                    }
 
                     <input
                         type="file"

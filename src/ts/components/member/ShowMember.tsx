@@ -8,9 +8,9 @@ interface ShowMemberProps {
 }
 
 const ShowMember: React.FC<ShowMemberProps> = ({ username }) => {
-    const { role, token } = useAuth();
+    const { role, token, username: currentUsername  } = useAuth();
     const [member, setMember] = useState<MemberProfileDTO | null>(null);
-
+    const [refresh, setRefresh] = useState(0);
     const [photoUrl, setPhotoUrl] = useState<string>(defaultAvatar);
 
     useEffect(() => {
@@ -35,7 +35,7 @@ const ShowMember: React.FC<ShowMemberProps> = ({ username }) => {
             });
 
         return () => controller.abort();
-    }, [username]);
+    }, [username, refresh]);
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/members/profile/${username}`, {
@@ -46,13 +46,13 @@ const ShowMember: React.FC<ShowMemberProps> = ({ username }) => {
             .then(res => res.json())
             .then(data => setMember(data))
             .catch(err => console.error(err));
-    }, [username, token]);
+    }, [token, refresh]);
 
     if (!member) return <p>Chargement...</p>;
 
     return (
         <div className="card">
-            <h2>{member.firstName} {member.lastName} - Profil</h2>
+            <h2>{member.firstName} {member.lastName}</h2>
             <img src={photoUrl} alt="photo de profil" height="200" style={{marginBottom: "10px"}} />
             <p><strong>Nom :</strong> {member.lastName}</p>
             <p><strong>Prénom :</strong> {member.firstName}</p>
@@ -60,7 +60,7 @@ const ShowMember: React.FC<ShowMemberProps> = ({ username }) => {
             {(role === "ADMIN" || role === "MENTOR") && (
                 <>
                     <p><strong>Email :</strong> {member.email}</p>
-                    <p><strong>Rôle :</strong> {member.role}</p>
+                    <p><strong>Rôle :</strong> {member.role === "MENTOR" ? "Parrain" : "Porteur de projet"}</p>
                     {member.role === "MENTOR" && (
                         <>
                             <p><strong>
@@ -68,11 +68,14 @@ const ShowMember: React.FC<ShowMemberProps> = ({ username }) => {
                             </p>
                             <p><strong>Nombre de porteurs suivis maximum :</strong> {member.nbrOfFounders}</p>
                             <p><strong>Disponible :</strong> {member.available ? "Oui" : "Non"}</p>
+
                         </>
                     )}
 
+
                 </>
             )}
+            { currentUsername == member.username && ( <button onClick={() => setRefresh(prev => prev+1)}>Actualiser</button>)}
         </div>
     );
 };
