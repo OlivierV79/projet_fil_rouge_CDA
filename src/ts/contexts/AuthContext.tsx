@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setRole(decoded.role.replace('ROLE_', '')); // remove ROLE_ prefix
             } catch (error) {
                 console.error('Invalid token:', error);
-                logout(); // optional: log out if token is invalid
+                logout();
             }
         }
     }, [token]);
