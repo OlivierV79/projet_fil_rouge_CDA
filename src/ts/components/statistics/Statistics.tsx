@@ -6,7 +6,7 @@ const Statistics: React.FC = () => {
     const { token } = useAuth();
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/statistics/member", {
+        fetch(`${import.meta.env.VITE_API_URL}/statistics/member`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

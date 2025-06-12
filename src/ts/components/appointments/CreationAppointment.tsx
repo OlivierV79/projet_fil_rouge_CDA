@@ -20,7 +20,7 @@ const CreationAppointment: React.FC = () => {
         if (role !== 'MENTOR') return;
         const fetchFounders = async () => {
             try {
-                const res = await fetch('http://localhost:8080/api/mentors/founders', {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/mentors/founders`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -56,7 +56,7 @@ const CreationAppointment: React.FC = () => {
         };
 
         try {
-            const res = await fetch('http://localhost:8080/api/appointments', {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/appointments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

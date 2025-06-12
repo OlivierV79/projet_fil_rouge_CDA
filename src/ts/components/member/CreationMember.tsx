@@ -37,7 +37,7 @@ const CreationMember: React.FC = () => {
         };
 
         try {
-            const res = await fetch("http://localhost:8080/api/admin/create-member", {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/admin/create-member`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

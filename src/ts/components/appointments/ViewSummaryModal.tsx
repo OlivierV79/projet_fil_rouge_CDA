@@ -10,7 +10,7 @@ const ViewSummaryModal: React.FC<Props> = ({ appointmentId, onClose, token }) =>
     const [summary, setSummary] = useState<string>("");
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/appointments/${appointmentId}/summary`, {
+        fetch(`${import.meta.env.VITE_API_URL}/appointments/${appointmentId}/summary`, {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => {

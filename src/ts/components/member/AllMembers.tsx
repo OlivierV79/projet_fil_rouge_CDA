@@ -15,7 +15,7 @@ const AllMembers: React.FC = () => {
 
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/members/all", {
+        fetch(`${import.meta.env.VITE_API_URL}/members/all`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

@@ -14,7 +14,7 @@ const UploadDocument: React.FC = () => {
     const token = localStorage.getItem("token");
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/members/eligible", {
+        fetch(`${import.meta.env.VITE_API_URL}/members/eligible`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -42,7 +42,7 @@ const UploadDocument: React.FC = () => {
         formData.append("type", type);
 
         try {
-            const res = await fetch("http://localhost:8080/api/documents/send", {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/documents/send`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -51,7 +51,7 @@ const UploadDocument: React.FC = () => {
             });
 
             if (!res.ok) throw new Error("Erreur lors de l'envoi");
-            alert("Document envoyé avec succès !");
+            //alert("Document envoyé avec succès !");
             setFile(null);
             setReceiverId(null);
         } catch (err) {

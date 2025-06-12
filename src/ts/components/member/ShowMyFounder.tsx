@@ -7,7 +7,7 @@ const SearchMentor: React.FC = () => {
     const { token } = useAuth();
 
     useEffect(() => {
-            fetch('http://localhost:8080/api/mentors/founders-username', {
+            fetch(`${import.meta.env.VITE_API_URL}/mentors/founders-username`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
