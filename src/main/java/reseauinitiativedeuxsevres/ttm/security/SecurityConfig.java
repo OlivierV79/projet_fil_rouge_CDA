@@ -51,15 +51,14 @@ public class SecurityConfig {
                     return configuration;
                 }))
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        // TODO ---- ATTENTION A METTRE EN
-                        //TODO .requestMatchers("/api/appointments/**").authenticated()
                         .requestMatchers("/api/appointments/**").authenticated()
-                        .requestMatchers("/api/mentors/**").authenticated()
-                        .requestMatchers("/api/admin/**").authenticated()
+                        .requestMatchers("/api/mentors/**").hasRole("MENTOR")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/members/**").authenticated()
                         .requestMatchers("/api/documents/**").authenticated()
                         .anyRequest().authenticated()
