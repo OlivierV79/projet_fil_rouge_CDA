@@ -6,7 +6,7 @@ COPY ./tsconfig.json ./
 COPY ./tsconfig.node.json ./
 COPY ./tsconfig.app.json ./
 COPY ./index.html ./
-COPY ./src/ts ./src/ts
+COPY ./src ./src
 RUN npm install && npm run build
 
 FROM nginx:stable-alpine
