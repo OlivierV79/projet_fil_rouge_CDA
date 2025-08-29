@@ -19,8 +19,8 @@ const Appointment: React.FC = () => {
         try {
             const url =
                 role === 'ADMIN'
-                    ? 'http://localhost:8080/api/appointments'
-                    : 'http://localhost:8080/api/appointments/mine';
+                    ? '/api/appointments'
+                    : '/api/appointments/mine';
 
             const res = await fetch(url, {
                 headers: {
@@ -59,7 +59,7 @@ const Appointment: React.FC = () => {
 
     const handleCancel = async (id: number) => {
         if (window.confirm("Voulez-vous vraiment annuler ce rendez-vous ?")) {
-            await fetch(`http://localhost:8080/api/appointments/${id}`, {
+            await fetch(`/api/appointments/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`

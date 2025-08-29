@@ -18,7 +18,7 @@ const ReceivedDocuments: React.FC = () => {
     const token = localStorage.getItem("token");
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/documents/received", {
+        fetch("/api/documents/received", {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then(res => res.json())
@@ -27,7 +27,7 @@ const ReceivedDocuments: React.FC = () => {
     }, []);
 
     const download = (id: number, filename: string) => {
-        fetch(`http://localhost:8080/api/documents/download/${id}`, {
+        fetch(`/api/documents/download/${id}`, {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => res.blob())
@@ -45,7 +45,7 @@ const ReceivedDocuments: React.FC = () => {
         if (!confirmDelete) return;
 
         try {
-            const res = await fetch(`http://localhost:8080/api/documents/${id}`, {
+            const res = await fetch(`/api/documents/${id}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` }
             });

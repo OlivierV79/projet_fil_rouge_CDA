@@ -6,7 +6,7 @@ const Statistics: React.FC = () => {
     const { token } = useAuth();
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/statistics/member", {
+        fetch("/api/statistics/member", {
             headers: {
                 Authorization: `Bearer ${token}`
             }

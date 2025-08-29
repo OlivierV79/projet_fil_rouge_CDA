@@ -27,7 +27,7 @@ const ModifyAppointment: React.FC<Props> = ({ appointment, onClose, onSaved }) =
         e.preventDefault();
         const token = localStorage.getItem("token");
 
-        await fetch(`http://localhost:8080/api/appointments/${appointment.id}`, {
+        await fetch(`/api/appointments/${appointment.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

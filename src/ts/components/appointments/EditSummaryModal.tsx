@@ -11,7 +11,7 @@ const EditSummaryModal: React.FC<Props> = ({ appointmentId, onClose, onSaved, to
     const [summary, setSummary] = useState("");
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/appointments/${appointmentId}/summary`, {
+        fetch(`/api/appointments/${appointmentId}/summary`, {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => res.ok ? res.text() : "")
@@ -22,7 +22,7 @@ const EditSummaryModal: React.FC<Props> = ({ appointmentId, onClose, onSaved, to
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        await fetch(`http://localhost:8080/api/appointments/${appointmentId}/summary`, {
+        await fetch(`/api/appointments/${appointmentId}/summary`, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${token}`,

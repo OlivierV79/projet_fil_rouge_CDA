@@ -19,7 +19,7 @@ const ModifyMember: React.FC = () => {
     useEffect(() => {
         const token = localStorage.getItem("token");
 
-        fetch("http://localhost:8080/api/members/me", {
+        fetch("/api/members/me", {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
@@ -78,7 +78,7 @@ const ModifyMember: React.FC = () => {
         }
 
         try {
-            const res = await fetch("http://localhost:8080/api/members/me", {
+            const res = await fetch("/api/members/me", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -94,7 +94,7 @@ const ModifyMember: React.FC = () => {
                 const formDataFile = new FormData();
                 formDataFile.append("file", selectedFile);
 
-                const uploadRes = await fetch("http://localhost:8080/api/documents/upload/profilePicture", {
+                const uploadRes = await fetch("/api/documents/upload/profilePicture", {
                     method: "POST",
                     headers: {
                         "Authorization": `Bearer ${token}`

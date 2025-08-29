@@ -9,7 +9,7 @@ const SearchMentor: React.FC = () => {
     const [allMentors, setAllMentors] = useState<MemberProfileDTO[]>([]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/mentors/assigned", {
+        fetch("/api/mentors/assigned", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -20,7 +20,7 @@ const SearchMentor: React.FC = () => {
     }, [token]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/mentors/all", {
+        fetch("/api/mentors/all", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -34,7 +34,7 @@ const SearchMentor: React.FC = () => {
         if (!window.confirm("Souhaitez-vous vraiment choisir ce mentor ?")) return;
 
         try {
-            const res = await fetch(`http://localhost:8080/api/mentors/assign/${mentorUsername}`, {
+            const res = await fetch(`/api/mentors/assign/${mentorUsername}`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`

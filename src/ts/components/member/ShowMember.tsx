@@ -17,7 +17,7 @@ const ShowMember: React.FC<ShowMemberProps> = ({ username }) => {
         const controller = new AbortController();
         const token = localStorage.getItem("token");
 
-        fetch(`http://localhost:8080/api/documents/download/profilePicture/${username}`, {
+        fetch(`/api/documents/download/profilePicture/${username}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             },
@@ -38,7 +38,7 @@ const ShowMember: React.FC<ShowMemberProps> = ({ username }) => {
     }, [username, refresh]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/members/profile/${username}`, {
+        fetch(`/api/members/profile/${username}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
