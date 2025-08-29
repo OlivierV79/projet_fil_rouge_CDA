@@ -4,70 +4,62 @@ services:
     image: projet_initiative_asso-frontend
     build:
       context: .
-      dockerfile: Dockerfile.frontend
+      dockerfile: Dockerfile-frontend
     depends_on:
       - backend
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ttm-web.rule=Host(`olivier.nocturlab.fr`)"
-      - "traefik.http.services.ttm-web.loadbalancer.server.port=80"
+      - "traefik.http.routers.olivier-web.rule=Host(`olivier.nocturlab.fr`)"
+      - "traefik.http.services.olivier-web.loadbalancer.server.port=80"
     networks:
       - traefik
       - app
     environment:
-      API_URL: https://olivier.nocturlab.fr/api
+      API_URL: http://backend:8080
 
   backend:
     image: projet_initiative_asso-backend
     build:
       context: .
-      dockerfile: Dockerfile.backend
+      dockerfile: Dockerfile-backend
     ports:
-      - "8075:8080"  # optionnel, utile en local
+      - "8075:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/trouve_ton_match
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: password
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.ttm-api.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)"
-      - "traefik.http.services.ttm-api.loadbalancer.server.port=8080"
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: db_initiative_asso
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - db
       - app
-      - traefik
 
   db:
-    image: postgres:15
+    image: postgres:latest
     environment:
-      POSTGRES_DB: trouve_ton_match
+      POSTGRES_DB: db_initiative_asso
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d db_initiative_asso" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - db
 
+networks:
+  db:
   traefik:
-    image: traefik:v3.0
-    command:
-      - --entrypoints.web.address=:80
-      - --providers.docker=true
-      - --api.dashboard=true
-    ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - traefik
+    external: true
+    name: traefik_default
+  app:
+    driver: bridge
 
 volumes:
   postgres-data:
-
-networks:
-  traefik:
-  app:
-  db:

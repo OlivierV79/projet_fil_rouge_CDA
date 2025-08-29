@@ -1,0 +1,40 @@
+name: Deploy on server Nocturlab
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_SECRET }}
+
+      - name: Test SSH connection
+        run: ssh -o StrictHostKeyChecking=no ovillaverde@ssh.shiipou.fr "echo 'Connexion SSH OK'"
+
+      - name: Deploy to server via SSH
+        run: |
+          ssh -o StrictHostKeyChecking=no ovillaverde@ssh.shiipou.fr << 'EOF'
+            cd /var/home/ovillaverde/fil_rouge/
+            if [ ! -d "projet_initiative_asso/.git" ]; then
+              git clone https://github.com/OlivierV79/projet_fil_rouge_CDA projet_initiative_asso
+              cd projet_initiative_asso
+            else
+              cd projet_initiative_asso
+              git pull origin main
+              docker compose build --no-cache frontend
+              docker compose up -d
+            fi
+            ls -ltr
+            docker compose pull
+            docker compose up -d --build
+          EOF
