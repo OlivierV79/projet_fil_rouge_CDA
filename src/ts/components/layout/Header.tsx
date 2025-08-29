@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import logoTTM from '../../assets/logos/logo_ttm.png';
-import '../../style/Header.css';
+import '../../style/header.css';
 import { useAuth } from '../../contexts/AuthContext';
 import { NavLink, useNavigate } from 'react-router-dom';
 
