@@ -9,21 +9,26 @@ services:
       - backend
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.olivier-web.rule=Host(`olivier.nocturlab.fr`)"
+      # Route tout le web vers le front, sauf /api (qui sera matché en priorité par la règle API ci-dessous)
+      - "traefik.http.routers.olivier-web.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/`)"
+      - "traefik.http.routers.olivier-web.entrypoints=web"
+      - "traefik.http.routers.olivier-web.priority=1"
       - "traefik.http.services.olivier-web.loadbalancer.server.port=80"
     networks:
       - traefik
       - app
-    environment:
-      API_URL: http://backend:8080
+    # (optionnel) pas nécessaire pour le front statique :
+    # environment:
+    #   API_URL: http://backend:8080
 
   backend:
     image: projet_initiative_asso-backend
     build:
       context: .
       dockerfile: Dockerfile-backend
-    ports:
-      - "8075:8080"
+    # évite d'exposer vers l'hôte si tu passes uniquement par Traefik
+    # ports:
+    #   - "8075:8080"
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -33,7 +38,16 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      # Route API : host + préfixe /api, avec priorité haute pour matcher avant le front
+      - "traefik.http.routers.olivier-api.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.olivier-api.entrypoints=web"
+      - "traefik.http.routers.olivier-api.priority=100"
+      # Le backend écoute bien en 8080 dans le conteneur
+      - "traefik.http.services.olivier-api.loadbalancer.server.port=8080"
     networks:
+      - traefik     # <<< IMPORTANT : connecter le backend au réseau traefik
       - db
       - app
 
