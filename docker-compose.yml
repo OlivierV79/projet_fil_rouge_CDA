@@ -35,9 +35,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-backend
-    # évite d'exposer vers l'hôte si tu passes uniquement par Traefik
-    # ports:
-    #   - "8075:8080"
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -48,18 +45,26 @@ services:
       db:
         condition: service_healthy
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik_default"
-      # Route API : host + préfixe /api, avec priorité haute pour matcher avant le front
-      - "traefik.http.routers.olivier-api.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.olivier-api.entrypoints=web"
-      - "traefik.http.routers.olivier-api.priority=100"
-      # Le backend écoute bien en 8080 dans le conteneur
-      - "traefik.http.services.olivier-api.loadbalancer.server.port=8080"
+      - traefik.enable=true
+      - traefik.docker.network=traefik_default
+
+      # HTTP
+      - traefik.http.routers.olivier-api.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)
+      - traefik.http.routers.olivier-api.entrypoints=web
+      - traefik.http.routers.olivier-api.priority=100
+      - traefik.http.services.olivier-api.loadbalancer.server.port=8080
+
+      # HTTPS
+      - traefik.http.routers.olivier-api-https.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)
+      - traefik.http.routers.olivier-api-https.entrypoints=websecure
+      - traefik.http.routers.olivier-api-https.tls=true
+      - traefik.http.routers.olivier-api-https.priority=100
+      - traefik.http.services.olivier-api-https.loadbalancer.server.port=8080
     networks:
-      - traefik     # <<< IMPORTANT : connecter le backend au réseau traefik
+      - traefik
       - db
       - app
+
 
   db:
     image: postgres:latest
