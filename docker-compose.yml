@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
 
   frontend:
@@ -9,24 +11,12 @@ services:
       - backend
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik_default"
-      # Route tout le web vers le front, sauf /api (qui sera matché en priorité par la règle API ci-dessous)
-      - "traefik.http.routers.olivier-web.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/`)"
-      - "traefik.http.routers.olivier-web.entrypoints=web"
-      - "traefik.http.routers.olivier-web.priority=1"
+      - "traefik.http.routers.olivier-web.rule=Host(`olivier.nocturlab.fr`)"
       - "traefik.http.services.olivier-web.loadbalancer.server.port=80"
-
-      - "traefik.http.routers.olivier-api-https.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.olivier-api-https.entrypoints=websecure"
-      - "traefik.http.routers.olivier-api-https.tls=true"
-      - "traefik.http.routers.olivier-api-https.priority=100"
-      - "traefik.http.services.olivier-api-https.loadbalancer.server.port=8080"
-
-
     networks:
       - traefik
       - app
-    # (optionnel) pas nécessaire pour le front statique :
+    # (optionnel, pas nécessaire pour le front statique)
     # environment:
     #   API_URL: http://backend:8080
 
@@ -35,6 +25,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-backend
+    ports:
+      - "8075:8080"    # exposé directement vers l’hôte (API dispo sur :8075)
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -44,27 +36,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=traefik_default
-
-      # HTTP
-      - traefik.http.routers.olivier-api.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)
-      - traefik.http.routers.olivier-api.entrypoints=web
-      - traefik.http.routers.olivier-api.priority=100
-      - traefik.http.services.olivier-api.loadbalancer.server.port=8080
-
-      # HTTPS
-      - traefik.http.routers.olivier-api-https.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)
-      - traefik.http.routers.olivier-api-https.entrypoints=websecure
-      - traefik.http.routers.olivier-api-https.tls=true
-      - traefik.http.routers.olivier-api-https.priority=100
-      - traefik.http.services.olivier-api-https.loadbalancer.server.port=8080
     networks:
-      - traefik
       - db
       - app
-
 
   db:
     image: postgres:latest
