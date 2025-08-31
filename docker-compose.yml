@@ -9,6 +9,7 @@ services:
       - backend
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik_default"
       # Route tout le web vers le front, sauf /api (qui sera matché en priorité par la règle API ci-dessous)
       - "traefik.http.routers.olivier-web.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/`)"
       - "traefik.http.routers.olivier-web.entrypoints=web"
@@ -48,6 +49,7 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik_default"
       # Route API : host + préfixe /api, avec priorité haute pour matcher avant le front
       - "traefik.http.routers.olivier-api.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)"
       - "traefik.http.routers.olivier-api.entrypoints=web"
