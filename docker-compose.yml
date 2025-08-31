@@ -36,9 +36,21 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
-      # Route vers l’API via Traefik
+      - "traefik.docker.network=traefik_default"
+
+      # HTTP (même si redirigé par Traefik, on le met pour être propre)
       - "traefik.http.routers.olivier-api.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.olivier-api.entrypoints=web"
+      - "traefik.http.routers.olivier-api.priority=100"
       - "traefik.http.services.olivier-api.loadbalancer.server.port=8080"
+
+      # HTTPS (le point clé pour ton 502)
+      - "traefik.http.routers.olivier-api-https.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.olivier-api-https.entrypoints=websecure"
+      - "traefik.http.routers.olivier-api-https.tls=true"
+      - "traefik.http.routers.olivier-api-https.priority=100"
+      - "traefik.http.services.olivier-api-https.loadbalancer.server.port=8080"
+
     networks:
       - traefik
       - db
