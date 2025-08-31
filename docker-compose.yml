@@ -11,14 +11,12 @@ services:
       - backend
     labels:
       - "traefik.enable=true"
+      # Route vers le frontend (tout sauf /api)
       - "traefik.http.routers.olivier-web.rule=Host(`olivier.nocturlab.fr`)"
       - "traefik.http.services.olivier-web.loadbalancer.server.port=80"
     networks:
       - traefik
       - app
-    # (optionnel, pas nécessaire pour le front statique)
-    # environment:
-    #   API_URL: http://backend:8080
 
   backend:
     image: projet_initiative_asso-backend
@@ -26,7 +24,7 @@ services:
       context: .
       dockerfile: Dockerfile-backend
     ports:
-      - "8075:8080"    # exposé directement vers l’hôte (API dispo sur :8075)
+      - "8075:8080"    # API dispo aussi en direct sur le port 8075 (debug)
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -36,7 +34,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      # Route vers l’API via Traefik
+      - "traefik.http.routers.olivier-api.rule=Host(`olivier.nocturlab.fr`) && PathPrefix(`/api`)"
+      - "traefik.http.services.olivier-api.loadbalancer.server.port=8080"
     networks:
+      - traefik
       - db
       - app
 
