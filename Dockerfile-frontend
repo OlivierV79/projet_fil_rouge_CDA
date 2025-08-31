@@ -1,15 +1,12 @@
 FROM node:20 AS build
 WORKDIR /app
-COPY ./package*.json ./
-COPY ./vite.config.ts ./
-COPY ./tsconfig.json ./
-COPY ./tsconfig.node.json ./
-COPY ./tsconfig.app.json ./
-COPY ./index.html ./
-COPY ./src ./src
-RUN npm install && npm run build
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
 
 FROM nginx:stable-alpine
-COPY ./nginx/* /etc/nginx/conf.d/default.conf
+# on remplace la conf par notre server-block
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
