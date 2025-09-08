@@ -20,4 +20,3 @@ test('connexion admin et affichage du menu admin', async ({ page }) => {
   await expect(page.locator('nav')).toContainText('Documents');
   await expect(page.locator('nav')).toContainText('Déconnexion');
 });
-
